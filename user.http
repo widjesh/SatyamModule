@@ -1,7 +1,18 @@
+<<<<<<< HEAD
 GET http://localhost:3000/users/widjesh@satyamholidays.com
 
+=======
+GET http://localhost:3000/users/widjesh8@hotmail.com
+>>>>>>> e69e359a47123e3cc90494a624e1fa1fc05864b6
 ###
+GET http://localhost:3000/users/
+###
+POST http://localhost:3000/users
+###
+POST http://localhost:3000/users/login
+Content-Type: application/json
 
+<<<<<<< HEAD
 GET http://localhost:3000/users/
 ###
 POST http://localhost:3000/users/
@@ -11,4 +22,9 @@ Content-Type: application/json
     "email" : "widjesh@satyamholidays.com",
     "password" : "Test12",
     "role": "ADMIN"
+=======
+{
+    "email" : "widjesh@satyamholidays.com",
+    "password" : "Test12"
+>>>>>>> e69e359a47123e3cc90494a624e1fa1fc05864b6
 }
