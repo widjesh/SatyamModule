@@ -90,7 +90,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   asyncEmailValidator(control: FormControl): Promise<any> | Observable<any> {
     const promise = new Promise<any>((resolve, reject) => {
-        setInterval(()=>{
             this.userService.getUserByEmail(control.value).subscribe(data => {
                 if (data.email) {
                   console.log("Invalid");
@@ -101,7 +100,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
                   resolve(null);
                 }
               });
-        },3000);
 
     });
     return promise;
