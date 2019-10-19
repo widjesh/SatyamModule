@@ -42,7 +42,7 @@ export class MailMainSidebarComponent implements OnInit, OnDestroy
         // Set the defaults
         this.accounts = {
             creapond    : 'johndoe@creapond.com',
-            withinpixels: 'johndoe@withinpixels.com'
+            withinpixels: 'johndsssoe@withinpixels.com'
         };
         this.selectedAccount = 'creapond';
 

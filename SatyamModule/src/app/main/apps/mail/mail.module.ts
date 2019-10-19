@@ -13,7 +13,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseSidebarModule } from '@fuse/components';
+import { FuseSidebarModule, FuseWidgetModule } from '@fuse/components';
 
 import { MailService } from 'app/main/apps/mail/mail.service';
 import { MailComponent } from 'app/main/apps/mail/mail.component';
@@ -22,6 +22,10 @@ import { MailListItemComponent } from 'app/main/apps/mail/mail-list/mail-list-it
 import { MailDetailsComponent } from 'app/main/apps/mail/mail-details/mail-details.component';
 import { MailMainSidebarComponent } from 'app/main/apps/mail/sidebars/main/main-sidebar.component';
 import { MailComposeDialogComponent } from 'app/main/apps/mail/dialogs/compose/compose.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
 
 const routes: Routes = [
     {
@@ -98,7 +102,21 @@ const routes: Routes = [
         TranslateModule,
 
         FuseSharedModule,
-        FuseSidebarModule
+        FuseSidebarModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatMenuModule,
+        MatSelectModule,
+        MatTableModule,
+        MatTabsModule,
+
+        NgxChartsModule,
+
+        FuseSharedModule,
+        FuseSidebarModule,
+        FuseWidgetModule
     ],
     providers      : [
         MailService
