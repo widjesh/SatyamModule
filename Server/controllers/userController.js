@@ -30,7 +30,6 @@ router.get("/:email", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 router.post("/", async (req, res) => {
   try {
     const pass = bcrypt.hashSync(req.body.password, 10)
@@ -49,7 +48,6 @@ router.post("/", async (req, res) => {
     console.log(err)
   }
 })
-=======
 router.post("/login", async (req, res) => {
   try {
     const foundUser = await User.findOne({ email: req.body.email });
@@ -80,6 +78,5 @@ router.post("/login", async (req, res) => {
     res.send({ Error: err });
   }
 });
->>>>>>> e69e359a47123e3cc90494a624e1fa1fc05864b6
 
 module.exports = router;
