@@ -14,7 +14,8 @@ import { takeUntil } from "rxjs/internal/operators";
 import { FuseConfigService } from "@fuse/services/config.service";
 import { fuseAnimations } from "@fuse/animations";
 import { UserService } from "app/Services/user.service";
-import Swal from "sweetalert";
+import { SwalService } from 'app/Services/swal.service';
+
 
 @Component({
   selector: "register",
@@ -32,7 +33,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   constructor(
     private _fuseConfigService: FuseConfigService,
     private _formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private swalService: SwalService
   ) {
     // Configure the layout
     this._fuseConfigService.config = {
@@ -59,7 +61,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     const newUser = this.registerForm.value;
     console.log(newUser);
     this.userService.registerUser(newUser).subscribe(data => {
-      Swal("Registered!", `Successfully registered ${data.name}`, "success");
+      this.swalService.notify("Registered!", `Successfully registered ${data.name}`, "success");
       console.log(data);
     });
   }
@@ -94,7 +96,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.userService.getUserByEmail(control.value).subscribe(data => {
                 if (data.email) {
                   console.log("Invalid");
-                  Swal("We're sorry!", "You have chosen an existing email", "error");
+                  this.swalService.notify("We're sorry!", "You have chosen an existing email", "error");
                   resolve("Test");
                 } else {
                   console.log("Valid");
