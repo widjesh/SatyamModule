@@ -106,8 +106,8 @@ router.post("/", async (req, res) => {
 
 router.put('/addbooking/:email', async (req, res) => {
     const newbooking = {
-        number: new ObjectId(),
-        date: Date.now,
+        number: req.body.bookingnumber,
+        date: req.body.date1,
         description: req.body.description,
         price: {
             currency: req.body.currency,
@@ -119,20 +119,20 @@ router.put('/addbooking/:email', async (req, res) => {
         },
         payments: [
             {
-                invoiceno: { type: String },
-                amount: { type: Number },
-                date: { type: Date },
-                type: { type: String }
+                invoiceno: new ObjectId(),
+                amount: req.body.amount,
+                date: req.body.date2,
+                type: req.body.type
             }
         ]
     }
 
     try {
-        const customer = await Customer.update({ email: req.params.email }, { $push: { bookings: newbooking } })
+        const customer = await Customer.update({ 'contact.email': req.params.email }, { $push: { bookings: newbooking } })
         if (!customer) {
             res.send('Customer not found - Booking not added')
         } else {
-            res.send(`Booking ref no ${customer.bookings.$.number} added to cutomer id ${customer.email}`)
+            res.send(`Booking added to cutomer id ${customer.email}`)
         }
     } catch (err) {
         res.send({ Error: err });
@@ -141,9 +141,9 @@ router.put('/addbooking/:email', async (req, res) => {
 });
 
 router.put('/addpassenger/:email/:bookingnumber', async (req, res) => {
-    const newPassenger = req.body.newPassenger
+    const newPassenger = req.body.passenger
     try {
-        const customer = await Customer.update({ email: req.params.email, 'bookings.bookingnumber': req.params.number }, { $push: { 'bookings.$.passengers': newPassenger } })
+        const customer = await Customer.update({ email: req.params.email, 'bookings.bookingnumber': req.params.bookingnumber }, { $push: { 'bookings.$.passengers': newPassenger } })
         if (!customer) {
             res.send('Booking not found - Passenger not added')
         } else {
