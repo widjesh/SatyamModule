@@ -73,6 +73,7 @@ router.post("/login", async (req, res) => {
         );
         res.status(200).send({
           message: "Auth Successfull",
+          name : foundUser.name,
           token: token
         });
       }
@@ -106,7 +107,7 @@ router.delete("/remove/:email", async (req, res) => {
   try {
     const user = await User.deleteOne({ email: req.params.email })
     if (user) res.send(`User ${user.email} successfully removed`)
-    else res.send('Remove Unseccesful')
+    else res.json({ message: 'Remove Unseccesful' })
   } catch (err) {
     res.send({ Error: err });
   }

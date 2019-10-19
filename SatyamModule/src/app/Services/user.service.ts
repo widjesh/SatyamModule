@@ -15,4 +15,8 @@ export class UserService {
   getUserByEmail(email:string){
     return this.http.get<any>(`http://localhost:3000/users/${email}`);
   }
+
+  loginUser(obj:any){
+    return this.http.post<any>('http://localhost:3000/users/login',obj);
+  }
 }
