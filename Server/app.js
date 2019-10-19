@@ -4,11 +4,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const {mongoose} = require('./database/db');
+const { mongoose } = require('./database/db');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const users = require('./controllers/userController');
+const customers = require('./controllers/customerController')
 
 var app = express();
 
@@ -24,7 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 //mongoose.set('useCreateIndexes',true);
 
 app.use('/', indexRouter);
-app.use('/users',users);
+app.use('/users', users);
+app.use('/customers', customers)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
