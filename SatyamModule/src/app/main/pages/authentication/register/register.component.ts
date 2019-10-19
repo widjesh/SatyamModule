@@ -57,6 +57,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     const newUser = this.registerForm.value;
+    console.log(newUser);
     this.userService.registerUser(newUser).subscribe(data => {
       Swal("Registered!", `Successfully registered ${data.name}`, "success");
       console.log(data);
@@ -75,7 +76,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       password: ["", Validators.required],
       passwordConfirm: ["", [Validators.required, confirmPasswordValidator]],
       position: ["", Validators.required],
-      role: ["", Validators.required]
+      isadmin: ["", Validators.required]
     });
 
     // Update the validity of the 'passwordConfirm' field
