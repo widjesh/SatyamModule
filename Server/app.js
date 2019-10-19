@@ -5,7 +5,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const { mongoose } = require('./database/db');
-const { mongoose } = require('./database/db');
 const cors = require('cors');
 
 var indexRouter = require('./routes/index');
