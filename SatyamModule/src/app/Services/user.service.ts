@@ -11,4 +11,8 @@ export class UserService {
   registerUser(obj:any){
     return this.http.post<any>('http://localhost:3000/users',obj);
   }
+
+  getUserByEmail(email:string){
+    return this.http.get<any>(`http://localhost:3000/users/${email}`);
+  }
 }
