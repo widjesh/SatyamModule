@@ -5,14 +5,16 @@ import {
   FormGroup,
   ValidationErrors,
   ValidatorFn,
-  Validators
+  Validators,
+  FormControl
 } from "@angular/forms";
-import { Subject } from "rxjs";
+import { Subject, Observable } from "rxjs";
 import { takeUntil } from "rxjs/internal/operators";
 
 import { FuseConfigService } from "@fuse/services/config.service";
 import { fuseAnimations } from "@fuse/animations";
-import { UserService } from 'app/user.service';
+import { UserService } from "app/Services/user.service";
+import Swal from "sweetalert";
 
 @Component({
   selector: "register",
@@ -30,7 +32,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   constructor(
     private _fuseConfigService: FuseConfigService,
     private _formBuilder: FormBuilder,
-    private registerService : UserService
+    private userService: UserService
   ) {
     // Configure the layout
     this._fuseConfigService.config = {
@@ -54,17 +56,22 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-      const newUser = this.registerForm.value;
-      this.registerService.registerUser(newUser).subscribe((data)=>{
-          console.log(data);
-    })
+    const newUser = this.registerForm.value;
+    this.userService.registerUser(newUser).subscribe(data => {
+      Swal("Registered!", `Successfully registered ${data.name}`, "success");
+      console.log(data);
+    });
   }
 
   ngOnInit(): void {
     this.registerForm = this._formBuilder.group({
       name: ["", Validators.required],
       phoneno: ["", Validators.required],
-      email: ["", [Validators.required, Validators.email]],
+      email: [
+        "",
+        [Validators.required, Validators.email],
+        [this.asyncEmailValidator.bind(this)]
+      ],
       password: ["", Validators.required],
       passwordConfirm: ["", [Validators.required, confirmPasswordValidator]],
       position: ["", Validators.required],
@@ -79,6 +86,23 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.registerForm.get("passwordConfirm").updateValueAndValidity();
       });
+  }
+
+  asyncEmailValidator(control: FormControl): Promise<any> | Observable<any> {
+    const promise = new Promise<any>((resolve, reject) => {
+            this.userService.getUserByEmail(control.value).subscribe(data => {
+                if (data.email) {
+                  console.log("Invalid");
+                  Swal("We're sorry!", "You have chosen an existing email", "error");
+                  resolve("Test");
+                } else {
+                  console.log("Valid");
+                  resolve(null);
+                }
+              });
+
+    });
+    return promise;
   }
 
   /**
