@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
       position: req.body.position,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 10),
-      role: req.body.role
+      isadmin: req.body.isadmin
     });
     const newUser = await user.save();
     if (!newUser) {
@@ -94,8 +94,8 @@ router.put("/updatepassword/:email", async (req, res) => {
 
 router.put("/updaterole/:email", async (req, res) => {
   try {
-    const user = await User.updateOne({ email: req.params.email }, { $set: { role: req.body.role } })
-    if (user) res.send(`Role for ${req.params.email} Updated to ${req.body.role}`)
+    const user = await User.updateOne({ email: req.params.email }, { $set: { isadmin: req.body.isadmin } })
+    if (user) res.send(`Role for ${req.params.email} Updated to ADMIN: ${req.body.isadmin}`)
     else res.send('Role Not Updated')
   } catch (err) {
     res.send({ Error: err });
