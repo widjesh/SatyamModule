@@ -4,15 +4,18 @@ const jwt = require("jsonwebtoken");
 var ObjectId = require("mongoose").Types.ObjectId;
 var User = require("../models/user");
 
-router.get("/", (req, res, next) => {
-  User.find((err, users) => {
-    if (!err) {
-      if (users) res.json(users);
-      else res.send("No Users Found");
+router.get("/", async (req, res) => {
+  try {
+    const user = await User.find()
+    if (!user) {
+      res.send('Users Not Found')
     } else {
-      console.error(err);
+      res.send(user)
     }
-  });
+  } catch (err) {
+    console.error(err)
+  }
+
 });
 
 router.get("/:email", async (req, res) => {
