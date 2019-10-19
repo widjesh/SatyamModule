@@ -81,4 +81,36 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.put("/updatepassword/:email", async (req, res) => {
+  try {
+    const newpass = bcrypt.hashSync(req.body.password, 10)
+    const user = await User.update({ email: req.params.email }, { $set: { password: newpass } })
+    if (user) res.send(`Password for ${req.params.email} Changed`)
+    else res.send('Password Not Updated')
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+router.put("/updaterole/:email", async (req, res) => {
+  try {
+    const user = await User.updateOne({ email: req.params.email }, { $set: { role: req.body.role } })
+    if (user) res.send(`Role for ${req.params.email} Updated to ${req.body.role}`)
+    else res.send('Role Not Updated')
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+router.delete("/remove/:email", async (req, res) => {
+  try {
+    const user = await User.deleteOne({ email: req.params.email })
+    console.log(user)
+    if (user) res.send(`User ${req.params.email} successfully removed`)
+    else res.send('Remove Unseccesful')
+  } catch (err) {
+    console.error(err)
+  }
+})
+
 module.exports = router;
