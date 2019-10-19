@@ -6,7 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     selector: 'mail-compose',
     templateUrl: './compose.component.html',
     styleUrls: ['./compose.component.scss'],
-    encapsulation: ViewEncapsulation.None```````````````````````````````````````````````````````````````````````````````````````````````
+    encapsulation: ViewEncapsulation.None
 })
 export class MailComposeDialogComponent {
     showExtraToFields: boolean;
