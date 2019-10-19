@@ -31,4 +31,23 @@ router.get("/:email", async (req, res) => {
   }
 });
 
+router.post("/", async (req, res) => {
+  try {
+    const pass = bcrypt.hashSync(req.body.password, 10)
+    const user = new User({
+      email: req.body.email,
+      password: pass,
+      role: 'ADMIN'
+    });
+    const newUser = await user.save();
+    if (!newUser) {
+      res.send('User Cannot be Saved');
+    } else {
+      res.send(user);
+    }
+  } catch (err) {
+    console.log(err)
+  }
+})
+
 module.exports = router;
