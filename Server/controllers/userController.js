@@ -6,16 +6,15 @@ var User = require("../models/user");
 
 router.get("/", async (req, res) => {
   try {
-    const user = await User.find()
+    const user = await User.find();
     if (!user) {
-      res.send('Users Not Found')
+      res.send("Users Not Found");
     } else {
-      res.send(user)
+      res.send(user);
     }
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
-
 });
 
 router.get("/:email", async (req, res) => {
@@ -31,6 +30,35 @@ router.get("/:email", async (req, res) => {
   }
 });
 
-
+router.post("/login", async (req, res) => {
+  try {
+    const foundUser = await User.findOne({ email: req.body.email });
+    if (!foundUser) {
+      res.send({ message: "Auth Failed" });
+    } else {
+      const verify = bcrypt.compareSync(req.body.password, foundUser.password);
+      if (!verify) {
+        res.send({ message: "Auth Failed" });
+      } else {
+        const token = jwt.sign(
+          {
+            email: foundUser.email,
+            userId: foundUser._id
+          },
+          process.env.SECRET_KEY,
+          {
+            expiresIn: "1h"
+          }
+        );
+        res.status(200).send({
+          message: "Auth Successfull",
+          token: token
+        });
+      }
+    }
+  } catch (err) {
+    res.send({ Error: err });
+  }
+});
 
 module.exports = router;

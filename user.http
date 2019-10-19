@@ -3,5 +3,11 @@ GET http://localhost:3000/users/widjesh8@hotmail.com
 GET http://localhost:3000/users/
 ###
 POST http://localhost:3000/users
+###
+POST http://localhost:3000/users/login
+Content-Type: application/json
 
-GET http://localhost:3000/users
+{
+    "email" : "widjesh@satyamholidays.com",
+    "password" : "Test12"
+}
