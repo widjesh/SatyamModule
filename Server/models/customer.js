@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const user = require('./user')
+
 var customer = mongoose.model("customer", {
   customernumber: { type: String },
   title: { type: String },
@@ -36,7 +37,7 @@ var customer = mongoose.model("customer", {
         other: { type: Number },
         discount: { type: Number }
       },
-      passengers: { type: customer },
+      passengers: [{ type: Object }],
       payments: [
         {
           invoiceno: { type: String },
@@ -48,7 +49,7 @@ var customer = mongoose.model("customer", {
     }
   ],
   modifiedby: {
-    user: { type: user },
+    user: { type: Object },
     date: { type: Date, default: Date.now }
   }
 });

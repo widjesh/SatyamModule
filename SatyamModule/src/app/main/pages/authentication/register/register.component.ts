@@ -1,86 +1,120 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/internal/operators';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from "@angular/core";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+  FormControl
+} from "@angular/forms";
+import { Subject, Observable } from "rxjs";
+import { takeUntil } from "rxjs/internal/operators";
 
-import { FuseConfigService } from '@fuse/services/config.service';
-import { fuseAnimations } from '@fuse/animations';
+import { FuseConfigService } from "@fuse/services/config.service";
+import { fuseAnimations } from "@fuse/animations";
+import { UserService } from "app/Services/user.service";
+import Swal from "sweetalert";
 
 @Component({
-    selector     : 'register',
-    templateUrl  : './register.component.html',
-    styleUrls    : ['./register.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+  selector: "register",
+  templateUrl: "./register.component.html",
+  styleUrls: ["./register.component.scss"],
+  encapsulation: ViewEncapsulation.None,
+  animations: fuseAnimations
 })
-export class RegisterComponent implements OnInit, OnDestroy
-{
-    registerForm: FormGroup;
+export class RegisterComponent implements OnInit, OnDestroy {
+  registerForm: FormGroup;
 
-    // Private
-    private _unsubscribeAll: Subject<any>;
+  // Private
+  private _unsubscribeAll: Subject<any>;
 
-    constructor(
-        private _fuseConfigService: FuseConfigService,
-        private _formBuilder: FormBuilder
-    )
-    {
-        // Configure the layout
-        this._fuseConfigService.config = {
-            layout: {
-                navbar   : {
-                    hidden: true
-                },
-                toolbar  : {
-                    hidden: true
-                },
-                footer   : {
-                    hidden: true
-                },
-                sidepanel: {
-                    hidden: true
+  constructor(
+    private _fuseConfigService: FuseConfigService,
+    private _formBuilder: FormBuilder,
+    private userService: UserService
+  ) {
+    // Configure the layout
+    this._fuseConfigService.config = {
+      layout: {
+        navbar: {
+          hidden: true
+        },
+        toolbar: {
+          hidden: true
+        },
+        footer: {
+          hidden: true
+        },
+        sidepanel: {
+          hidden: true
+        }
+      }
+    };
+    // Set the private defaults
+    this._unsubscribeAll = new Subject();
+  }
+
+  onSubmit() {
+    const newUser = this.registerForm.value;
+    this.userService.registerUser(newUser).subscribe(data => {
+      Swal("Registered!", `Successfully registered ${data.name}`, "success");
+      console.log(data);
+    });
+  }
+
+  ngOnInit(): void {
+    this.registerForm = this._formBuilder.group({
+      name: ["", Validators.required],
+      phoneno: ["", Validators.required],
+      email: [
+        "",
+        [Validators.required, Validators.email],
+        [this.asyncEmailValidator.bind(this)]
+      ],
+      password: ["", Validators.required],
+      passwordConfirm: ["", [Validators.required, confirmPasswordValidator]],
+      position: ["", Validators.required],
+      role: ["", Validators.required]
+    });
+
+    // Update the validity of the 'passwordConfirm' field
+    // when the 'password' field changes
+    this.registerForm
+      .get("password")
+      .valueChanges.pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(() => {
+        this.registerForm.get("passwordConfirm").updateValueAndValidity();
+      });
+  }
+
+  asyncEmailValidator(control: FormControl): Promise<any> | Observable<any> {
+    const promise = new Promise<any>((resolve, reject) => {
+        setInterval(()=>{
+            this.userService.getUserByEmail(control.value).subscribe(data => {
+                if (data.email) {
+                  console.log("Invalid");
+                  Swal("We're sorry!", "You have chosen an existing email", "error");
+                  resolve("Test");
+                } else {
+                  console.log("Valid");
+                  resolve(null);
                 }
-            }
-        };
+              });
+        },3000);
 
-        // Set the private defaults
-        this._unsubscribeAll = new Subject();
-    }
+    });
+    return promise;
+  }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
-        this.registerForm = this._formBuilder.group({
-            name           : ['', Validators.required],
-            email          : ['', [Validators.required, Validators.email]],
-            password       : ['', Validators.required],
-            passwordConfirm: ['', [Validators.required, confirmPasswordValidator]]
-        });
-
-        // Update the validity of the 'passwordConfirm' field
-        // when the 'password' field changes
-        this.registerForm.get('password').valueChanges
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(() => {
-                this.registerForm.get('passwordConfirm').updateValueAndValidity();
-            });
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void
-    {
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
-    }
+  /**
+   * On destroy
+   */
+  ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
+  }
 }
 
 /**
@@ -89,30 +123,27 @@ export class RegisterComponent implements OnInit, OnDestroy
  * @param {AbstractControl} control
  * @returns {ValidationErrors | null}
  */
-export const confirmPasswordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+export const confirmPasswordValidator: ValidatorFn = (
+  control: AbstractControl
+): ValidationErrors | null => {
+  if (!control.parent || !control) {
+    return null;
+  }
 
-    if ( !control.parent || !control )
-    {
-        return null;
-    }
+  const password = control.parent.get("password");
+  const passwordConfirm = control.parent.get("passwordConfirm");
 
-    const password = control.parent.get('password');
-    const passwordConfirm = control.parent.get('passwordConfirm');
+  if (!password || !passwordConfirm) {
+    return null;
+  }
 
-    if ( !password || !passwordConfirm )
-    {
-        return null;
-    }
+  if (passwordConfirm.value === "") {
+    return null;
+  }
 
-    if ( passwordConfirm.value === '' )
-    {
-        return null;
-    }
+  if (password.value === passwordConfirm.value) {
+    return null;
+  }
 
-    if ( password.value === passwordConfirm.value )
-    {
-        return null;
-    }
-
-    return {passwordsNotMatching: true};
+  return { passwordsNotMatching: true };
 };

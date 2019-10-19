@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
       res.send(user);
     }
   } catch (err) {
-    console.error(err);
+    res.send({ Error: err });
   }
 });
 
@@ -21,22 +21,23 @@ router.get("/:email", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.params.email });
     if (!user) {
-      res.send(`${req.params.email} not found`);
+      res.json(`${req.params.email} not found`);
     } else {
-      res.send(user);
+      res.json(user);
     }
   } catch (err) {
-    res.send({ err });
+    res.json({ Error: err });
   }
 });
 
 router.post("/", async (req, res) => {
   try {
-    const pass = bcrypt.hashSync(req.body.password, 10)
     const user = new User({
+      name: req.body.name,
+      position: req.body.position,
       email: req.body.email,
-      password: pass,
-      role: 'ADMIN'
+      password: bcrypt.hashSync(req.body.password, 10),
+      isadmin: req.body.isadmin
     });
     const newUser = await user.save();
     if (!newUser) {
@@ -45,7 +46,7 @@ router.post("/", async (req, res) => {
       res.send(user);
     }
   } catch (err) {
-    console.log(err)
+    res.send({ Error: err });
   }
 });
 
@@ -83,33 +84,31 @@ router.post("/login", async (req, res) => {
 
 router.put("/updatepassword/:email", async (req, res) => {
   try {
-    const newpass = bcrypt.hashSync(req.body.password, 10)
-    const user = await User.update({ email: req.params.email }, { $set: { password: newpass } })
+    const user = await User.update({ email: req.params.email }, { $set: { password: bcrypt.hashSync(req.body.password, 10) } })
     if (user) res.send(`Password for ${req.params.email} Changed`)
     else res.send('Password Not Updated')
   } catch (err) {
-    console.error(err)
+    res.send({ Error: err });
   }
 })
 
 router.put("/updaterole/:email", async (req, res) => {
   try {
-    const user = await User.updateOne({ email: req.params.email }, { $set: { role: req.body.role } })
-    if (user) res.send(`Role for ${req.params.email} Updated to ${req.body.role}`)
+    const user = await User.updateOne({ email: req.params.email }, { $set: { isadmin: req.body.isadmin } })
+    if (user) res.send(`Role for ${req.params.email} Updated to ADMIN: ${req.body.isadmin}`)
     else res.send('Role Not Updated')
   } catch (err) {
-    console.error(err)
+    res.send({ Error: err });
   }
 })
 
 router.delete("/remove/:email", async (req, res) => {
   try {
     const user = await User.deleteOne({ email: req.params.email })
-    console.log(user)
-    if (user) res.send(`User ${req.params.email} successfully removed`)
+    if (user) res.send(`User ${user.email} successfully removed`)
     else res.send('Remove Unseccesful')
   } catch (err) {
-    console.error(err)
+    res.send({ Error: err });
   }
 })
 
