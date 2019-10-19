@@ -14,6 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseSidebarModule, FuseWidgetModule } from '@fuse/components';
+import { MatDatepickerModule } from '@angular/material/datepicker'
 
 import { MailService } from 'app/main/apps/mail/mail.service';
 import { MailComponent } from 'app/main/apps/mail/mail.component';
@@ -29,55 +30,55 @@ import { MatTableModule } from '@angular/material/table';
 
 const routes: Routes = [
     {
-        path     : 'label/:labelHandle',
+        path: 'label/:labelHandle',
         component: MailComponent,
-        resolve  : {
+        resolve: {
             mail: MailService
         }
     },
     {
-        path     : 'label/:labelHandle/:mailId',
+        path: 'label/:labelHandle/:mailId',
         component: MailComponent,
-        resolve  : {
+        resolve: {
             mail: MailService
         }
     },
     {
-        path     : 'filter/:filterHandle',
+        path: 'filter/:filterHandle',
         component: MailComponent,
-        resolve  : {
+        resolve: {
             mail: MailService
         }
     },
     {
-        path     : 'filter/:filterHandle/:mailId',
+        path: 'filter/:filterHandle/:mailId',
         component: MailComponent,
-        resolve  : {
+        resolve: {
             mail: MailService
         }
     },
     {
-        path     : ':folderHandle',
+        path: ':folderHandle',
         component: MailComponent,
-        resolve  : {
+        resolve: {
             mail: MailService
         }
     },
     {
-        path     : ':folderHandle/:mailId',
+        path: ':folderHandle/:mailId',
         component: MailComponent,
-        resolve  : {
+        resolve: {
             mail: MailService
         }
     },
     {
-        path      : '**',
+        path: '**',
         redirectTo: 'inbox'
     }
 ];
 
 @NgModule({
-    declarations   : [
+    declarations: [
         MailComponent,
         MailListComponent,
         MailListItemComponent,
@@ -85,7 +86,7 @@ const routes: Routes = [
         MailMainSidebarComponent,
         MailComposeDialogComponent
     ],
-    imports        : [
+    imports: [
         RouterModule.forChild(routes),
 
         MatButtonModule,
@@ -98,6 +99,7 @@ const routes: Routes = [
         MatRippleModule,
         MatSelectModule,
         MatToolbarModule,
+        MatDatepickerModule,
 
         TranslateModule,
 
@@ -118,13 +120,12 @@ const routes: Routes = [
         FuseSidebarModule,
         FuseWidgetModule
     ],
-    providers      : [
+    providers: [
         MailService
     ],
     entryComponents: [
         MailComposeDialogComponent
     ]
 })
-export class MailModule
-{
+export class MailModule {
 }
