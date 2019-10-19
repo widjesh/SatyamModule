@@ -1,5 +1,4 @@
 # SatyamModule
-<<<<<<< HEAD
 
 ROUTES
 userController
@@ -18,11 +17,10 @@ customerController
     GET     customers/:lastname/---------------------get a customer by lastname
     GET     customers/:nationality/------------------get a customer by nationality
     PUT     customers/addbooking/:email/-------------add booking to a customer
-    PUT     customers/addpassenger/:email/:number----add passenger to a booking of a customer
+    PUT     customers/addpassenger/:email/:bookingnumber----add passenger to a booking of a customer
     DELETE  customers/remove/:email/-----------------delete whole customer
 
 
-=======
 User Cases : (Admin)
 - Register a user
 - Update a user
@@ -38,4 +36,3 @@ Users :
 - Add a payment to the customer
 - Update the booking 
 - Update the payment
->>>>>>> 9e9b83e86f2c499ac7ee38ca7655871207633562

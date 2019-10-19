@@ -140,14 +140,14 @@ router.put('/addbooking/:email', async (req, res) => {
 
 });
 
-router.put('/addpassenger/:email/:number', async (req, res) => {
+router.put('/addpassenger/:email/:bookingnumber', async (req, res) => {
     const newPassenger = req.body.passenger
     try {
-        const customer = await Customer.update({ 'contact.email': req.params.email, 'bookings.number': req.params.number }, { $push: { 'bookings.$.passengers': newPassenger } })
+        const customer = await Customer.update({ 'contact.email': req.params.email, 'bookings.number': req.params.bookingnumber }, { $push: { 'bookings.$.passengers': newPassenger } })
         if (!customer) {
             res.send('Booking not found / Passenger not added')
         } else {
-            res.send(`Passenger added to ${req.params.email} booking number ${req.params.number}`)
+            res.send(`Passenger added to ${req.params.email} booking number ${req.params.bookingnumber}`)
         }
     } catch (err) {
         res.send({ Error: err });
@@ -164,6 +164,6 @@ router.delete("/remove/:email", async (req, res) => {
     }
 })
 
-// router.delete("/remove/:emial")
+// router.delete("/remove/:emial/")
 
 module.exports = router;
