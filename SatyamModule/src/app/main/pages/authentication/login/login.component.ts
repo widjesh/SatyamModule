@@ -5,6 +5,7 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
 import { UserService } from 'app/Services/user.service';
 import { SwalService } from 'app/Services/swal.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector     : 'login',
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder,
         private userService : UserService,
-        private swalService : SwalService
+        private swalService : SwalService,
+        private router : Router
     )
     {
         this.loginForm = this._formBuilder.group({
@@ -65,9 +67,8 @@ export class LoginComponent implements OnInit
             if(data.message === "Auth Failed"){
                 this.swalService.notify("Failed",`${data.message}`,"error");            
             }else{
-                //
-                this.swalService.notify(`Welcome ${data.email}`,"You're logged in","success");
-                console.log(data);
+                this.swalService.notify(`Welcome ${data.name}`,"You're logged in","success");
+                this.router.navigate(['/pages']);
             }
         });
         console.log(this.loginForm.value);

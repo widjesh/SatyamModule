@@ -73,6 +73,7 @@ router.post("/login", async (req, res) => {
         );
         res.status(200).send({
           message: "Auth Successfull",
+          name : foundUser.name,
           token: token
         });
       }
