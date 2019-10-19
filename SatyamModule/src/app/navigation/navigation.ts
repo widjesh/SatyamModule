@@ -12,22 +12,23 @@ export const navigation: FuseNavigation[] = [
                 id: 'dashboards',
                 title: 'Dashboards',
                 translate: 'NAV.DASHBOARDS',
-                type: 'collapsable',
+                type: 'item',
                 icon: 'dashboard',
-                children: [
-                    {
-                        id: 'analytics',
-                        title: 'Analytics',
-                        type: 'item',
-                        url: '/apps/dashboards/analytics'
-                    },
-                    {
-                        id: 'project',
-                        title: 'Project',
-                        type: 'item',
-                        url: '/apps/dashboards/project'
-                    }
-                ]
+                url: '/apps/dashboards/project'
+                // children: [
+                //     {
+                //         id: 'analytics',
+                //         title: 'Analytics',
+                //         type: 'item',
+                //         url: '/apps/dashboards/analytics'
+                //     },
+                //     {
+                //         id: 'project',
+                //         title: 'Project',
+                //         type: 'item',
+                //         url: '/apps/dashboards/project'
+                //     }
+                // ]
             },
             {
                 id: 'calendar',
@@ -39,37 +40,24 @@ export const navigation: FuseNavigation[] = [
             },
             {
                 id: 'e-commerce',
-                title: 'E-Commerce',
+                title: 'User',
                 translate: 'NAV.ECOMMERCE',
                 type: 'collapsable',
                 icon: 'shopping_cart',
                 children: [
                     {
                         id: 'products',
-                        title: 'Products',
-                        type: 'item',
-                        url: '/apps/e-commerce/products',
-                        exactMatch: true
-                    },
-                    {
-                        id: 'productDetail',
-                        title: 'Product Detail',
+                        title: 'Register User',
                         type: 'item',
                         url: '/apps/e-commerce/products/1/printed-dress',
                         exactMatch: true
                     },
                     {
-                        id: 'orders',
-                        title: 'Orders',
+                        id: 'productDetail',
+                        title: 'Edit User',
                         type: 'item',
-                        url: '/apps/e-commerce/orders',
-                        exactMatch: true
-                    },
-                    {
-                        id: 'orderDetail',
-                        title: 'Order Detail',
-                        type: 'item',
-                        url: '/apps/e-commerce/orders/1',
+                        url: '/apps/e-commerce/products',
+
                         exactMatch: true
                     }
                 ]
