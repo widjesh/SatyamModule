@@ -30,8 +30,7 @@ export class ContactsService implements Resolve<any>
      */
     constructor(
         private _httpClient: HttpClient
-    )
-    {
+    ) {
         // Set the defaults
         this.onContactsChanged = new BehaviorSubject([]);
         this.onSelectedContactsChanged = new BehaviorSubject([]);
@@ -51,8 +50,7 @@ export class ContactsService implements Resolve<any>
      * @param {RouterStateSnapshot} state
      * @returns {Observable<any> | Promise<any> | any}
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
-    {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
         return new Promise((resolve, reject) => {
 
             Promise.all([
@@ -84,41 +82,37 @@ export class ContactsService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getContacts(): Promise<any>
-    {
+    getContacts(): Promise<any> {
         return new Promise((resolve, reject) => {
-                this._httpClient.get('api/contacts-contacts')
-                    .subscribe((response: any) => {
+            this._httpClient.get('http://localhost:3000/customers/')
+                .subscribe((response: any) => {
 
-                        this.contacts = response;
+                    this.contacts = response;
 
-                        if ( this.filterBy === 'starred' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.starred.includes(_contact.id);
-                            });
-                        }
-
-                        if ( this.filterBy === 'frequent' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.frequentContacts.includes(_contact.id);
-                            });
-                        }
-
-                        if ( this.searchText && this.searchText !== '' )
-                        {
-                            this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
-                        }
-
-                        this.contacts = this.contacts.map(contact => {
-                            return new Contact(contact);
+                    if (this.filterBy === 'starred') {
+                        this.contacts = this.contacts.filter(_contact => {
+                            return this.user.starred.includes(_contact.id);
                         });
+                    }
 
-                        this.onContactsChanged.next(this.contacts);
-                        resolve(this.contacts);
-                    }, reject);
-            }
+                    if (this.filterBy === 'frequent') {
+                        this.contacts = this.contacts.filter(_contact => {
+                            return this.user.frequentContacts.includes(_contact.id);
+                        });
+                    }
+
+                    if (this.searchText && this.searchText !== '') {
+                        this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
+                    }
+
+                    this.contacts = this.contacts.map(contact => {
+                        return new Contact(contact);
+                    });
+
+                    this.onContactsChanged.next(this.contacts);
+                    resolve(this.contacts);
+                }, reject);
+        }
         );
     }
 
@@ -127,16 +121,15 @@ export class ContactsService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getUserData(): Promise<any>
-    {
+    getUserData(): Promise<any> {
         return new Promise((resolve, reject) => {
-                this._httpClient.get('api/contacts-user/5725a6802d10e277a0f35724')
-                    .subscribe((response: any) => {
-                        this.user = response;
-                        this.onUserDataChanged.next(this.user);
-                        resolve(this.user);
-                    }, reject);
-            }
+            this._httpClient.get('api/contacts-user/5725a6802d10e277a0f35724')
+                .subscribe((response: any) => {
+                    this.user = response;
+                    this.onUserDataChanged.next(this.user);
+                    resolve(this.user);
+                }, reject);
+        }
         );
     }
 
@@ -145,15 +138,12 @@ export class ContactsService implements Resolve<any>
      *
      * @param id
      */
-    toggleSelectedContact(id): void
-    {
+    toggleSelectedContact(id): void {
         // First, check if we already have that contact as selected...
-        if ( this.selectedContacts.length > 0 )
-        {
+        if (this.selectedContacts.length > 0) {
             const index = this.selectedContacts.indexOf(id);
 
-            if ( index !== -1 )
-            {
+            if (index !== -1) {
                 this.selectedContacts.splice(index, 1);
 
                 // Trigger the next event
@@ -174,14 +164,11 @@ export class ContactsService implements Resolve<any>
     /**
      * Toggle select all
      */
-    toggleSelectAll(): void
-    {
-        if ( this.selectedContacts.length > 0 )
-        {
+    toggleSelectAll(): void {
+        if (this.selectedContacts.length > 0) {
             this.deselectContacts();
         }
-        else
-        {
+        else {
             this.selectContacts();
         }
     }
@@ -192,13 +179,11 @@ export class ContactsService implements Resolve<any>
      * @param filterParameter
      * @param filterValue
      */
-    selectContacts(filterParameter?, filterValue?): void
-    {
+    selectContacts(filterParameter?, filterValue?): void {
         this.selectedContacts = [];
 
         // If there is no filter, select all contacts
-        if ( filterParameter === undefined || filterValue === undefined )
-        {
+        if (filterParameter === undefined || filterValue === undefined) {
             this.selectedContacts = [];
             this.contacts.map(contact => {
                 this.selectedContacts.push(contact.id);
@@ -215,11 +200,10 @@ export class ContactsService implements Resolve<any>
      * @param contact
      * @returns {Promise<any>}
      */
-    updateContact(contact): Promise<any>
-    {
+    updateContact(contact): Promise<any> {
         return new Promise((resolve, reject) => {
 
-            this._httpClient.post('api/contacts-contacts/' + contact.id, {...contact})
+            this._httpClient.post('api/contacts-contacts/' + contact.id, { ...contact })
                 .subscribe(response => {
                     this.getContacts();
                     resolve(response);
@@ -233,10 +217,9 @@ export class ContactsService implements Resolve<any>
      * @param userData
      * @returns {Promise<any>}
      */
-    updateUserData(userData): Promise<any>
-    {
+    updateUserData(userData): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.post('api/contacts-user/' + this.user.id, {...userData})
+            this._httpClient.post('api/contacts-user/' + this.user.id, { ...userData })
                 .subscribe(response => {
                     this.getUserData();
                     this.getContacts();
@@ -248,8 +231,7 @@ export class ContactsService implements Resolve<any>
     /**
      * Deselect contacts
      */
-    deselectContacts(): void
-    {
+    deselectContacts(): void {
         this.selectedContacts = [];
 
         // Trigger the next event
@@ -261,8 +243,7 @@ export class ContactsService implements Resolve<any>
      *
      * @param contact
      */
-    deleteContact(contact): void
-    {
+    deleteContact(contact): void {
         const contactIndex = this.contacts.indexOf(contact);
         this.contacts.splice(contactIndex, 1);
         this.onContactsChanged.next(this.contacts);
@@ -271,10 +252,8 @@ export class ContactsService implements Resolve<any>
     /**
      * Delete selected contacts
      */
-    deleteSelectedContacts(): void
-    {
-        for ( const contactId of this.selectedContacts )
-        {
+    deleteSelectedContacts(): void {
+        for (const contactId of this.selectedContacts) {
             const contact = this.contacts.find(_contact => {
                 return _contact.id === contactId;
             });
