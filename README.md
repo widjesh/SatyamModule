@@ -5,7 +5,6 @@ userController - completed
 
 | Verb     | URL                                         | Function                                   |
 | :------- |:--------------------------------------------| :------------------------------------------|
-| -------- |:-------------------------------------------| ------------------------------------------:|
 | `GET`    | users/                                      | Get all users                              |
 | `GET`    | users/:email/                               | Get a user by email                        |
 | `POST`   | users/                                      | Add a user                                 |
@@ -18,7 +17,6 @@ customerController - completed
 
 | Verb     | URL                                                | Function                            |
 | :------- |:---------------------------------------------------| :-----------------------------------|
-| -------- |:--------------------------------------------------| -----------------------------------:|
 | `GET`    | customers/                                         | Get all customers                   |
 | `GET`    | customers/:email/                                  | Get a customer by email             |
 | `GET`    | customers/:firstname/                              | Get a customer by firstname         |
