@@ -8,6 +8,7 @@ var customer = mongoose.model("customer", {
   lastname: { type: String },
   dob: { type: Date },
   nationality: { type: String },
+  profilepicture: { type: String },
   contact: {
     mobilenumber: { type: String },
     sms_sr: { type: String },

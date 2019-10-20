@@ -6,7 +6,8 @@ var user = mongoose.model('user', {
     email: { type: String },
     phone: { type: String },
     password: { type: String },
-    isadmin: { type: Boolean }
+    isadmin: { type: Boolean },
+    profilepicture: { type: String }
 });
 
 module.exports = user;

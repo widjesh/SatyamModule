@@ -26,16 +26,17 @@ customerController - completed
 | `PUT`    | customers/addpassenger/:email/:bookingnumber       | Add passenger to a booking          |
 | `DELETE` | customers/remove/:email/                           | delete whole customer               |
 | `PATCH`  | customers/update/:email/                           | Update a customer                   |
+| `PATCH`  | customers/addpayment/:email/:bookingnumber         | Add payment to a booking            |
+| `PATCH`  | customers/updatebooking/:email/:bookingnumber/     | Update booking of a customer        |
 
 customerController - on progress
 
-| Verb     | URL                                                | Function                            |
-| :------- |:---------------------------------------------------| :-----------------------------------|
-| `PATCH`  | customers/updatebooking/:email/:bookingnumber/     | Update booking of a customer        |
-| `PUT`    | customers/addpayment/:email/:bookingnumber         | Add payment to a booking            |
-| `PUT`    | customers/updatepayment/:email/:bookingnumber/:paymentnumber | update payment            |
-| `DELETE` | customers/remove/:email/:bookingnumber             | delete booking of a customer        |
-| `DELETE` | customers/remove/:email/:bookingnumber/:passenger  | delete a passenger from a booking   |
+| Verb     | URL                                                | Function                                  |
+| :------- |:---------------------------------------------------| :-----------------------------------------|
+| `PUT`    | customers/updatepayment/:email/:bookingnumber/:paymentnumber | update payment                  |
+| `DELETE` | customers/removebooking/:email/:bookingnumber      | delete booking of a customer              |
+| `DELETE` | customers/removepayment/:email/:bookingnumber/:paymentnumber | delete booking of a customer    |
+| `DELETE` | customers/removepassenger/:email/:bookingnumber/:passenger  | delete a passenger from a booking|
 
 
 
