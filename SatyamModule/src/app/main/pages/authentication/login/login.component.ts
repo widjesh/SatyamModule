@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
           "You're logged in",
           "success"
         );
-        this.router.navigate(["/dashboards/analytics"]);
+        this.router.navigate(["/apps/dashboards/project"]);
       }
     });
     console.log(this.loginForm.value);
