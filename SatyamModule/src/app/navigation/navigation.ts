@@ -33,7 +33,7 @@ export const navigation: FuseNavigation[] = [
                 children: [
                     {
                         id: 'RegisterCustomer',
-                        title: 'Register User',
+                        title: 'Register Customer',
                         type: 'item',
                         url: '/apps/e-commerce/products/1/printed-dress',
                         exactMatch: true
