@@ -9,7 +9,6 @@ import { ProjectDashboardService } from 'app/main/apps/dashboards/project/projec
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { FormGroup } from '@angular/forms';
 import { ContactsContactFormDialogComponent } from '../../contacts/contact-form/contact-form.component';
-import { MyDialogComponent } from 'app/my-dialog.component';
 
 
 @Component({

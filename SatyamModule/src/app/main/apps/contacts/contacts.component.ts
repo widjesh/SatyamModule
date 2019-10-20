@@ -95,7 +95,9 @@ export class ContactsComponent implements OnInit, OnDestroy
             panelClass: 'contact-form-dialog',
             data      : {
                 action: 'new'
-            }
+            },
+            width: '1250px',
+            height: '850px'
         });
 
         this.dialogRef.afterClosed()

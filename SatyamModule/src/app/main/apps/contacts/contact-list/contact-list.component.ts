@@ -120,7 +120,9 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
             data: {
                 contact: contact,
                 action: 'edit'
-            }
+            },
+            width: '1250px',
+            height: '850px'
         });
 
         this.dialogRef.afterClosed()
