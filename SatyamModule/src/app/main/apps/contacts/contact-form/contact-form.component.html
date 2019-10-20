@@ -10,7 +10,7 @@
         <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
             <!-- <img [src]="contact.avatar" class="avatar contact-avatar huge m-0"
                  [alt]="contact.name"/> -->
-            <div class="contact-name mt-8">{{contact.name}} {{contact.lastName}}</div>
+            <!-- <div class="contact-name mt-8">{{firstname}} {{lastname}}</div> -->
         </mat-toolbar-row>
     </mat-toolbar>
 
@@ -35,7 +35,8 @@
                             <mat-select>
                                 <mat-option *ngFor="let choice of choices" [value]="choice.value"
                                     formControlName="title">
-                                    {{choice.viewValue}}
+                                    <!-- {{choice.viewValue}} -->
+                                    MR
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -185,8 +186,8 @@
                     </mat-expansion-panel-header>
                     <div formGroupName="bookings">
                         <mat-form-field>
-                            <input matInput [matDatepicker]="pickers" name="expirationdate"
-                                formControlName="date" placeholder="date">
+                            <input matInput [matDatepicker]="pickers" name="expirationdate" formControlName="date"
+                                placeholder="date">
                             <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
                             <mat-datepicker #pickers></mat-datepicker>
                         </mat-form-field>
@@ -208,7 +209,7 @@
                                 <mat-form-field>
                                     <mat-label>Currency</mat-label>
                                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                                    <input name="country" formControlName="country" matInput>
+                                    <input name="currency" formControlName="currency" matInput>
                                 </mat-form-field>
                                 <div></div>
                                 <mat-form-field>
@@ -256,12 +257,12 @@
                                 <mat-form-field>
                                     <mat-label>Firstname</mat-label>
                                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                                    <input name="country" formControlName="country" matInput>
+                                    <input name="pfirstname" formControlName="pfirstname" matInput>
                                 </mat-form-field>
                                 <mat-form-field>
                                     <mat-label>Lastname</mat-label>
                                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                                    <input name="country" formControlName="country" matInput>
+                                    <input name="plastname" formControlName="plastname" matInput>
                                 </mat-form-field>
                             </mat-expansion-panel>
                         </mat-accordion>
@@ -279,7 +280,7 @@
                                 <mat-form-field>
                                     <mat-label>Date</mat-label>
                                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                                    <input name="country" formControlName="country" matInput>
+                                    <input name="pdob" formControlName="pdob" matInput>
                                 </mat-form-field>
                                 <div></div>
                                 <mat-form-field>
@@ -291,7 +292,7 @@
                                 <mat-form-field>
                                     <mat-label>Type</mat-label>
                                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                                    <input name="country" formControlName="country" matInput>
+                                    <input name="type" formControlName="type" matInput>
                                 </mat-form-field>
                             </mat-expansion-panel>
                         </mat-accordion>
