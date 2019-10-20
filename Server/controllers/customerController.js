@@ -172,28 +172,48 @@ router.put('/addbooking/:email', async (req, res) => {
 
 });
 
-router.patch("/updatebooking/:email/:bookingnumber", async (req, res) => {
-    try {
-        const updatedcustomer = await Customer.updateOne({ 'contact.email': req.params.email, 'bookings.number': req.body.bookingnumber }, {
-            $set: {
-                'bookings.$.price.currency': req.body.currency,
-                'bookings.$.price.ticket': req.body.ticket,
-                'bookings.$.price.insurance': req.body.insurance,
-                'bookings.$.price.visa': req.body.visa,
-                'bookings.$.price.other': req.body.other,
-                'bookings.$.price.discount': req.body.discount,
-                'bookings.$.description': req.body.description
-            }
-        }, { upsert: true });
+// router.patch("/updatebooking/:email/:bookingnumber", async (req, res) => {
+//     try {
+//         const updatedcustomer = await Customer.updateOne({ 'contact.email': req.params.email, 'bookings.number': req.body.bookingnumber }, {
+//             $set: {
+//                 'bookings.$.price.currency': req.body.currency,
+//                 'bookings.$.price.ticket': req.body.ticket,
+//                 'bookings.$.price.insurance': req.body.insurance,
+//                 'bookings.$.price.visa': req.body.visa,
+//                 'bookings.$.price.other': req.body.other,
+//                 'bookings.$.price.discount': req.body.discount,
+//                 'bookings.$.description': req.body.description
+//             }
+//         }, { upsert: true });
 
-        if (!updatedcustomer) {
-            res.json({ message: 'Customer did not update' });
+//         if (!updatedcustomer) {
+//             res.json({ message: 'Customer did not update' });
+//         } else {
+//             res.send(updatedcustomer);
+//         }
+//     } catch (err) {
+//         res.send({ Error: err });
+//     }
+// });
+
+router.put('/addpayment/:email/:bookingnumber', async (req, res) => {
+    const newpayment = {
+        invoiceno: req.body.invoiceno,
+        amount: req.body.amount,
+        date: req.body.date,
+        type: req.body.type
+    }
+    try {
+        const customer = await Customer.updateOne({ 'contact.email': req.params.email, 'bookings.number': req.body.bookingnumber }, { $push: { 'bookings.$.payments': newpayment } })
+        if (!customer) {
+            res.send('Customer not found - Payment not added')
         } else {
-            res.send(updatedcustomer);
+            res.send(`Payment added to cutomer id ${req.params.email}`)
         }
     } catch (err) {
         res.send({ Error: err });
     }
+
 });
 
 router.put('/addpassenger/:email/:bookingnumber', async (req, res) => {
