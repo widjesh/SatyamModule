@@ -104,6 +104,38 @@ router.post("/", async (req, res) => {
     }
 });
 
+router.patch("/update/:email", async (req, res) => {
+    try {
+        const updatedcustomer = await Customer.updateOne({ 'contact.email': req.params.email }, {
+            $set: {
+                title: req.body.title,
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                dob: req.body.dob,
+                nationality: req.body.nationality,
+                'contact.mobilenumber': req.body.mobilenumber,
+                'contact.sms_sr': req.body.sms_sr,
+                'contact.sms_nl': req.body.sms_sr,
+                'contact.email': req.body.email,
+                'address.zip': req.body.zip,
+                'address.city': req.body.city,
+                'address.street': req.body.street,
+                'address.country': req.body.country,
+                'passport.passportno': req.body.passportno,
+                'passport.expirationdate': req.body.expirationdate,
+            }
+        }, { upsert: true });
+
+        if (!updatedcustomer) {
+            res.json({ message: 'Customer did not update' });
+        } else {
+            res.send(updatedcustomer);
+        }
+    } catch (err) {
+        res.send({ Error: err });
+    }
+});
+
 router.put('/addbooking/:email', async (req, res) => {
     const newbooking = {
         number: req.body.bookingnumber,
@@ -138,6 +170,30 @@ router.put('/addbooking/:email', async (req, res) => {
         res.send({ Error: err });
     }
 
+});
+
+router.patch("/updatebooking/:email/:bookingnumber", async (req, res) => {
+    try {
+        const updatedcustomer = await Customer.updateOne({ 'contact.email': req.params.email, 'bookings.number': req.body.bookingnumber }, {
+            $set: {
+                'bookings.$.price.currency': req.body.currency,
+                'bookings.$.price.ticket': req.body.ticket,
+                'bookings.$.price.insurance': req.body.insurance,
+                'bookings.$.price.visa': req.body.visa,
+                'bookings.$.price.other': req.body.other,
+                'bookings.$.price.discount': req.body.discount,
+                'bookings.$.description': req.body.description
+            }
+        }, { upsert: true });
+
+        if (!updatedcustomer) {
+            res.json({ message: 'Customer did not update' });
+        } else {
+            res.send(updatedcustomer);
+        }
+    } catch (err) {
+        res.send({ Error: err });
+    }
 });
 
 router.put('/addpassenger/:email/:bookingnumber', async (req, res) => {
