@@ -36,6 +36,7 @@ router.post("/", async (req, res) => {
       name: req.body.name,
       position: req.body.position,
       email: req.body.email,
+      phone: req.body.phone,
       password: bcrypt.hashSync(req.body.password, 10),
       isadmin: req.body.isadmin
     });
@@ -73,7 +74,7 @@ router.post("/login", async (req, res) => {
         );
         res.status(200).send({
           message: "Auth Successfull",
-          name : foundUser.name,
+          name: foundUser.name,
           token: token
         });
       }

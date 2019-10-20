@@ -7,6 +7,10 @@ import { fuseAnimations } from '@fuse/animations';
 
 import { ProjectDashboardService } from 'app/main/apps/dashboards/project/project.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { FormGroup } from '@angular/forms';
+import { ContactsContactFormDialogComponent } from '../../contacts/contact-form/contact-form.component';
+import { MyDialogComponent } from 'app/my-dialog.component';
+
 
 @Component({
     selector     : 'project-dashboard',
@@ -17,6 +21,7 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 })
 export class ProjectDashboardComponent implements OnInit
 {
+    // dialogRef: any;
     projects: any[];
     selectedProject: any;
 
@@ -38,7 +43,7 @@ export class ProjectDashboardComponent implements OnInit
      */
     constructor(
         private _fuseSidebarService: FuseSidebarService,
-        private _projectDashboardService: ProjectDashboardService
+        private _projectDashboardService: ProjectDashboardService,
     )
     {
         /**
@@ -143,14 +148,6 @@ export class ProjectDashboardComponent implements OnInit
         }, 1000);
 
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
     ngOnInit(): void
     {
         this.projects = this._projectDashboardService.projects;
