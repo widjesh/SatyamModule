@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FuseUtils } from '@fuse/utils';
 
 import { Contact } from 'app/main/apps/contacts/contact.model';
+import { Customer } from '../contacts/customer.model'
 
 @Injectable()
 export class ContactsService implements Resolve<any>
@@ -16,7 +17,8 @@ export class ContactsService implements Resolve<any>
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
 
-    contacts: Contact[];
+    //contacts: Contact[];
+    customers: Customer[];
     user: any;
     selectedContacts: string[] = [];
 
@@ -87,30 +89,31 @@ export class ContactsService implements Resolve<any>
             this._httpClient.get('http://localhost:3000/customers/')
                 .subscribe((response: any) => {
 
-                    this.contacts = response;
+                    this.customers = response;
 
                     if (this.filterBy === 'starred') {
-                        this.contacts = this.contacts.filter(_contact => {
-                            return this.user.starred.includes(_contact.id);
+                        this.customers = this.customers.filter(_customer => {
+                            return this.user.starred.includes(_customer.customernumber);
                         });
                     }
 
                     if (this.filterBy === 'frequent') {
-                        this.contacts = this.contacts.filter(_contact => {
-                            return this.user.frequentContacts.includes(_contact.id);
+                        this.customers = this.customers.filter(_customer => {
+                            return this.user.frequentContacts.includes(_customer.customernumber);
                         });
                     }
 
                     if (this.searchText && this.searchText !== '') {
-                        this.contacts = FuseUtils.filterArrayByString(this.contacts, this.searchText);
+                        this.customers = FuseUtils.filterArrayByString(this.customers, this.searchText);
+                        console.log(this.searchText);
                     }
 
-                    this.contacts = this.contacts.map(contact => {
-                        return new Contact(contact);
+                    this.customers = this.customers.map(customer => {
+                        return new Customer(customer);
                     });
 
-                    this.onContactsChanged.next(this.contacts);
-                    resolve(this.contacts);
+                    this.onContactsChanged.next(this.customers);
+                    resolve(this.customers);
                 }, reject);
         }
         );
@@ -185,8 +188,8 @@ export class ContactsService implements Resolve<any>
         // If there is no filter, select all contacts
         if (filterParameter === undefined || filterValue === undefined) {
             this.selectedContacts = [];
-            this.contacts.map(contact => {
-                this.selectedContacts.push(contact.id);
+            this.customers.map(_customer => {
+                this.selectedContacts.push(_customer.customernumber);
             });
         }
 
@@ -244,23 +247,23 @@ export class ContactsService implements Resolve<any>
      * @param contact
      */
     deleteContact(contact): void {
-        const contactIndex = this.contacts.indexOf(contact);
-        this.contacts.splice(contactIndex, 1);
-        this.onContactsChanged.next(this.contacts);
+        const contactIndex = this.customers.indexOf(contact);
+        this.customers.splice(contactIndex, 1);
+        this.onContactsChanged.next(this.customers);
     }
 
     /**
      * Delete selected contacts
      */
     deleteSelectedContacts(): void {
-        for (const contactId of this.selectedContacts) {
-            const contact = this.contacts.find(_contact => {
-                return _contact.id === contactId;
+        for (const customernumber of this.selectedContacts) {
+            const contact = this.customers.find(_customer => {
+                return _customer.customernumber === customernumber;
             });
-            const contactIndex = this.contacts.indexOf(contact);
-            this.contacts.splice(contactIndex, 1);
+            const contactIndex = this.customers.indexOf(contact);
+            this.customers.splice(contactIndex, 1);
         }
-        this.onContactsChanged.next(this.contacts);
+        this.onContactsChanged.next(this.customers);
         this.deselectContacts();
     }
 
