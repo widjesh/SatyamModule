@@ -51,7 +51,7 @@ const appRoutes: Routes = [
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     imports     : [
         BrowserModule,
@@ -86,7 +86,7 @@ const appRoutes: Routes = [
     bootstrap   : [
         AppComponent
     ],
-    providers:[SwalService]
+    providers:[SwalService],
 })
 export class AppModule
 {
