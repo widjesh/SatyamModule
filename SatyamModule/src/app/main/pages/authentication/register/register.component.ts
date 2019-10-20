@@ -15,6 +15,7 @@ import { FuseConfigService } from "@fuse/services/config.service";
 import { fuseAnimations } from "@fuse/animations";
 import { UserService } from "app/Services/user.service";
 import { SwalService } from 'app/Services/swal.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -34,7 +35,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private _fuseConfigService: FuseConfigService,
     private _formBuilder: FormBuilder,
     private userService: UserService,
-    private swalService: SwalService
+    private swalService: SwalService,
+    private router : Router
   ) {
     // Configure the layout
     this._fuseConfigService.config = {
@@ -60,9 +62,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   onSubmit() {
     const newUser = this.registerForm.value;
     console.log(newUser);
-    this.userService.registerUser(newUser).subscribe(data => {
-      this.swalService.notify("Registered!", `Successfully registered ${data.name}`, "success");
-      console.log(data);
+    this.userService.registerUser(newUser).subscribe(async data => {
+      await this.swalService.notify("Registered!", `Successfully registered ${data.name}`, "success");
+      this.router.navigate(["/dashboards/analytics"]);
     });
   }
 
@@ -78,7 +80,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       password: ["", Validators.required],
       passwordConfirm: ["", [Validators.required, confirmPasswordValidator]],
       position: ["", Validators.required],
-      isadmin: ["", Validators.required]
+      isadmin: [false]
     });
 
     // Update the validity of the 'passwordConfirm' field
@@ -90,6 +92,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.registerForm.get("passwordConfirm").updateValueAndValidity();
       });
   }
+
+
 
   asyncEmailValidator(control: FormControl): Promise<any> | Observable<any> {
     const promise = new Promise<any>((resolve, reject) => {
