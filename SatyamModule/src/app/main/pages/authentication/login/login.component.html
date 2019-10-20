@@ -10,7 +10,7 @@
 
             <div class="title">Shiva Keychain</div>
 
-            <form name="loginForm" [formGroup]="loginForm" novalidate>
+            <form name="loginForm" [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit()">
 
                 <mat-form-field appearance="outline">
                     <mat-label>Username</mat-label>

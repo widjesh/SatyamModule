@@ -3,23 +3,23 @@ export const locale = {
     data: {
         'NAV': {
             'APPLICATIONS': 'Applications',
-            'DASHBOARDS'  : 'Dashboards',
-            'CALENDAR'    : 'Calendar',
-            'ECOMMERCE'   : 'E-Commerce',
-            'ACADEMY'     : 'Academy',
-            'MAIL'        : {
-                'TITLE': 'Mail',
-                'BADGE': '25'
+            'DASHBOARDS': 'Dashboards',
+            'CALENDAR': 'Calendar',
+            'ECOMMERCE': 'Register New Customer',
+            'ACADEMY': 'Academy',
+            'MAIL': {
+                'TITLE': 'Register User',
+                'BADGE': '22'
             },
-            'MAIL_NGRX'        : {
+            'MAIL_NGRX': {
                 'TITLE': 'Mail Ngrx',
                 'BADGE': '13'
             },
-            'CHAT'        : 'Chat',
+            'CHAT': 'Chat',
             'FILE_MANAGER': 'File Manager',
-            'CONTACTS'    : 'Contacts',
-            'TODO'        : 'To-Do',
-            'SCRUMBOARD'  : 'Scrumboard'
+            'CONTACTS': 'Contacts',
+            'TODO': 'To-Do',
+            'SCRUMBOARD': 'Scrumboard'
         }
     }
 };

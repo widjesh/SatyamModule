@@ -14,7 +14,9 @@ import { takeUntil } from "rxjs/internal/operators";
 import { FuseConfigService } from "@fuse/services/config.service";
 import { fuseAnimations } from "@fuse/animations";
 import { UserService } from "app/Services/user.service";
-import Swal from "sweetalert";
+import { SwalService } from 'app/Services/swal.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: "register",
@@ -32,7 +34,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   constructor(
     private _fuseConfigService: FuseConfigService,
     private _formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private swalService: SwalService,
+    private router : Router
   ) {
     // Configure the layout
     this._fuseConfigService.config = {
@@ -58,9 +62,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   onSubmit() {
     const newUser = this.registerForm.value;
     console.log(newUser);
-    this.userService.registerUser(newUser).subscribe(data => {
-      Swal("Registered!", `Successfully registered ${data.name}`, "success");
-      console.log(data);
+    this.userService.registerUser(newUser).subscribe(async data => {
+      await this.swalService.notify("Registered!", `Successfully registered ${data.name}`, "success");
+      this.router.navigate(["/dashboards/analytics"]);
     });
   }
 
@@ -76,7 +80,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       password: ["", Validators.required],
       passwordConfirm: ["", [Validators.required, confirmPasswordValidator]],
       position: ["", Validators.required],
-      isadmin: ["", Validators.required]
+      isadmin: [false]
     });
 
     // Update the validity of the 'passwordConfirm' field
@@ -89,12 +93,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
       });
   }
 
+
+
   asyncEmailValidator(control: FormControl): Promise<any> | Observable<any> {
     const promise = new Promise<any>((resolve, reject) => {
             this.userService.getUserByEmail(control.value).subscribe(data => {
                 if (data.email) {
                   console.log("Invalid");
-                  Swal("We're sorry!", "You have chosen an existing email", "error");
+                  this.swalService.notify("We're sorry!", "You have chosen an existing email", "error");
                   resolve("Test");
                 } else {
                   console.log("Valid");
