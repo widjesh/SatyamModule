@@ -42,7 +42,7 @@ export const navigation: FuseNavigation[] = [
                         id: 'Manage',
                         title: 'Manage Customer',
                         type: 'item',
-                        url: '/apps/e-commerce/products',
+                        url: 'apps/contacts',
                         exactMatch: true
                     }
                 ]
@@ -1165,6 +1165,7 @@ export const navigation: FuseNavigation[] = [
                 ]
 
             }
+
         ]
     }
 ];
