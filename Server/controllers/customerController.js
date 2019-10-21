@@ -67,6 +67,19 @@ router.get("/findbyemail/:email", async (req, res) => {
     }
 });
 
+router.get("/findbycustomernumber/:customernumber", async (req, res) => {
+    try {
+        const customer = await Customer.findOne({ customernumber: req.params.customernumber });
+        if (!customer) {
+            res.json({ message: `No customer with customernumber '${req.params.customernumber}' found` });
+        } else {
+            res.send(customer);
+        }
+    } catch (err) {
+        res.send({ Error: err });
+    }
+});
+
 router.post("/", async (req, res) => {
     try {
         const customer = new Customer({
@@ -95,7 +108,7 @@ router.post("/", async (req, res) => {
         });
         const newCustomer = await customer.save();
         if (!newCustomer) {
-            res.json({ message: 'Customer Cannot be Saved' });
+            res.json({ message: 'Customer not Added' });
         } else {
             res.send(newCustomer);
         }
@@ -126,20 +139,18 @@ router.patch("/update/:email", async (req, res) => {
             }
         }, { upsert: true });
 
-        if (!updatedcustomer) {
-            res.json({ message: `Customer ${req.params.email} did not update` });
-        } else {
-            res.send(`Customer ${req.params.email} updated`);
-        }
+        if (updatedcustomer.n === 0) res.json({ message: `Customer ${req.params.email} not found` });
+        else if (updatedcustomer.nModified === 0) res.send(`Customer ${req.params.email} updated with no change`);
+        else res.send(`Customer ${req.params.email} updated`);
+
     } catch (err) {
         res.send({ Error: err });
     }
 });
 
-router.put('/addbooking/:email', async (req, res) => {
+router.patch('/addbooking/:email', async (req, res) => {
     const newbooking = {
-        number: req.body.bookingnumber,
-        date: req.body.date1,
+        number: new ObjectId(),
         description: req.body.description,
         price: {
             currency: req.body.currency,
@@ -148,24 +159,13 @@ router.put('/addbooking/:email', async (req, res) => {
             visa: req.body.visa,
             other: req.body.other,
             discount: req.body.discount
-        },
-        payments: [
-            {
-                invoiceno: new ObjectId(),
-                amount: req.body.amount,
-                date: req.body.date2,
-                type: req.body.type
-            }
-        ]
+        }
     }
 
     try {
         const customer = await Customer.update({ 'contact.email': req.params.email }, { $push: { bookings: newbooking } })
-        if (!customer) {
-            res.json({ message: `Customer ${req.params.email} not found - Booking not added` })
-        } else {
-            res.send(`Booking added to cutomer id ${req.params.email}`)
-        }
+        if (customer.nModified === 0) res.json({ message: `Customer ${req.params.email} not found - Booking not added` })
+        else res.send(`Booking added to cutomer id ${req.params.email}`)
     } catch (err) {
         res.send({ Error: err });
     }
@@ -184,13 +184,12 @@ router.patch("/updatebooking/:email/:bookingnumber", async (req, res) => {
                 'bookings.$.price.discount': req.body.discount,
                 'bookings.$.description': req.body.description
             }
-        }, { upsert: true });
+        });
 
-        if (!updatedcustomer) {
-            res.json({ message: `Booking ${req.params.bookingnumber} did not update` });
-        } else {
-            res.send(`Booking ${req.params.bookingnumber} of customer id ${req.params.email} updated`);
-        }
+        if (updatedcustomer.n === 0) res.json({ message: `Customer ${req.params.email} and/or Booking ${req.params.bookingnumber} not found` });
+        else if (updatedcustomer.nModified === 0) res.send(`Booking ${req.params.bookingnumber} of customer id ${req.params.email} updated with no change`);
+        else res.send(`Booking ${req.params.bookingnumber} of customer id ${req.params.email} updated`);
+
     } catch (err) {
         res.send({ Error: err });
     }
@@ -198,18 +197,15 @@ router.patch("/updatebooking/:email/:bookingnumber", async (req, res) => {
 
 router.patch('/addpayment/:email/:bookingnumber', async (req, res) => {
     const newpayment = {
-        invoiceno: req.body.invoiceno,
+        invoiceno: new ObjectId(),
         amount: req.body.amount,
-        date: req.body.date,
         type: req.body.type
     }
     try {
-        const customer = await Customer.updateOne({ 'contact.email': req.params.email, 'bookings.number': req.params.bookingnumber }, { $push: { 'bookings.$.payments': newpayment } })
-        if (!customer) {
-            res.json({ message: `Customer ${req.params.email} not found - Payment not added` })
-        } else {
-            res.send(`Payment added to cutomer id ${req.params.email}`)
-        }
+        const updatedcustomer = await Customer.updateOne({ 'contact.email': req.params.email, 'bookings.number': req.params.bookingnumber }, { $push: { 'bookings.$.payments': newpayment } })
+        if (updatedcustomer.n === 0) res.json({ message: `Customer ${req.params.email} not found - Payment not added` });
+        else res.send(`Payment added to cutomer id ${req.params.email}`);
+
     } catch (err) {
         res.send({ Error: err });
     }
@@ -217,34 +213,50 @@ router.patch('/addpayment/:email/:bookingnumber', async (req, res) => {
 });
 
 // router.patch("/updatepayment/:email/:bookingnumber/:invoiceno", async (req, res) => {
+//     const { em, bid, pid } = req.params
 //     try {
-//         const updatedcustomer = await Customer.updateOne({ 'contact.email': req.params.email, 'bookings.number': req.params.bookingnumber }, {
-//             $set: {
-//                 'bookings.$.payments.1.amount': req.body.amount,
-//                 'bookings.$.payments.1.date': req.body.date,
-//                 'bookings.$.payments.1.type': req.body.type
-//             }
-//         }, { upsert: true });
-
+//         const updatedcustomer = await Customer.updateOne(
+//             {
+//                 'contact.email': em,
+//                 // 'bookings.number': bid,
+//                 // 'bookings.payments': { $elemMatch: { invoiceno: req.body.invoiceno } },
+//                 'bookings': {
+//                     '$elemMatch': {
+//                         pid: bid, "payments.invoiceno": pid
+//                     }
+//                 }
+//             },
+//             {
+//                 $set: {
+//                     'bookings.$[outer].payments.$[inner].amount': req.body.amount,
+//                     'bookings.$[outer].payments.$[inner].date': req.body.date,
+//                     'bookings.$[outer].payments.$[inner].type': req.body.type
+//                 }
+//             }, { arrayFilters: [{ 'outer.number': bid }, { 'inner.invoiceno': pid }] });
 //         if (!updatedcustomer) {
 //             res.json({ message: `Invoice no ${req.params.invoiceno} did not update` });
 //         } else {
-//             res.send(`Invoice no ${req.params.invoiceno} of customer id ${req.params.email} updated`);
+//             res.send(updatedcustomer);//`Invoice no ${req.params.invoiceno} of customer id ${req.params.email} updated`
 //         }
 //     } catch (err) {
 //         res.send({ Error: err });
 //     }
 // });
 
-router.put('/addpassenger/:email/:bookingnumber', async (req, res) => {
-    const newPassenger = req.body.passenger
+
+router.patch('/addpassenger/:email/:bookingnumber', async (req, res) => {
+    const newPassenger = {
+        passengerno: new ObjectId(),
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        dob: req.body.dob,
+        passportno: req.body.passportno,
+        passportexpiry: req.body.passportexpiry
+    }
     try {
-        const customer = await Customer.update({ 'contact.email': req.params.email, 'bookings.number': req.params.bookingnumber }, { $push: { 'bookings.$.passengers': newPassenger } })
-        if (!customer) {
-            res.json({ message: `Either Customer ${req.params.email} or Booking ${req.params.bookingnumber} not found / Passenger not added` })
-        } else {
-            res.send(`Passenger added to ${req.params.email} booking number ${req.params.bookingnumber}`)
-        }
+        const updatedcustomer = await Customer.update({ 'contact.email': req.params.email, 'bookings.number': req.params.bookingnumber }, { $push: { 'bookings.$.passengers': newPassenger } })
+        if (updatedcustomer.n === 0) res.json({ message: `Either Customer ${req.params.email} or Booking ${req.params.bookingnumber} not found / Passenger not added` });
+        else res.send(`Passenger added to ${req.params.email} booking number ${req.params.bookingnumber}`);
     } catch (err) {
         res.send({ Error: err });
     }
@@ -252,24 +264,54 @@ router.put('/addpassenger/:email/:bookingnumber', async (req, res) => {
 
 router.delete("/remove/:email", async (req, res) => {
     try {
-        const customer = await Customer.deleteOne({ 'contact.email': req.params.email })
-        if (customer) res.send(`Customer ${customer.email} successfully removed`)
+        const deletedcustomer = await Customer.deleteOne({ 'contact.email': req.params.email })
+        if (deletedcustomer.n === 0) res.json({ message: `Customer ${req.params.email} not found` })
+        else res.send(`Customer ${req.params.email} successfully removed`);//
+
+    } catch (err) {
+        res.send({ Error: err });
+    }
+})
+
+router.patch("/removebooking/:email/:bookingnumber", async (req, res) => {
+    try {
+        const customer = await Customer.updateOne({ 'contact.email': req.params.email }, {
+            $pull: { bookings: { number: req.params.bookingnumber } }
+        });
+        if (customer.nModified === 1) res.send(`Booking ${req.params.bookingnumber} successfully removed`)
+        else if (customer.nModified === 0) res.send(`Either Customer ${req.params.email} or Booking ${req.params.bookingnumber} not found / No booking Removed`)
         else res.json({ message: `Remove Unseccesful` })
     } catch (err) {
         res.send({ Error: err });
     }
 })
 
-// router.patch("/removebooking/:email/:bookingnumber", async (req, res) => {
-//     try {
-//         const customer = await Customer.updateOne({ 'contact.email': req.params.email, 'bookings.number': req.params.bookingnumber }, {
-//             $pull: { bookings: 'bookings.$' }
-//         });
-//         if (customer) res.send(`Booking ${req.params.bookingnumber} successfully removed`)
-//         else res.json({ message: `Remove Unseccesful` })
-//     } catch (err) {
-//         res.send({ Error: err });
-//     }
-// })
+router.patch("/removepayment/:email/:bookingnumber/:invoiceno", async (req, res) => {
+    try {
+        const customer = await Customer.updateOne({ 'contact.email': req.params.email, 'bookings.number': req.params.bookingnumber }, {
+            $pull: { 'bookings.$.payments': { invoiceno: req.params.invoiceno } }
+        });
+        if (customer.nModified === 1) res.send(`Payment ${req.params.invoiceno} successfully removed`)
+        else if (customer.nModified === 0) res.send(`Either Customer ${req.params.email} or Booking ${req.params.bookingnumber} or Payment ${req.params.invoiceno} not found / No payment Removed`)
+        else res.json({ message: `Remove Unseccesful` })
+    } catch (err) {
+        res.send({ Error: err });
+    }
+})
+
+router.patch("/removepassenger/:email/:bookingnumber/:passengerno", async (req, res) => {
+    try {
+        const customer = await Customer.updateOne({ 'contact.email': req.params.email, 'bookings.number': req.params.bookingnumber }, {
+            $pull: { 'bookings.$.passengers': { passengerno: req.params.passengerno } }
+        });
+
+        if (customer.nModified === 1) res.send(`Passenger ${req.params.passengerno} successfully removed`)
+        else if (customer.nModified === 0) res.send(`Either Customer ${req.params.email} or Booking ${req.params.bookingnumber} or Passenger ${req.params.passengerno} not found / No Passenger Removed`)
+        else res.json({ message: `Remove Unseccesful` })
+
+    } catch (err) {
+        res.send({ Error: err });
+    }
+})
 
 module.exports = router;
