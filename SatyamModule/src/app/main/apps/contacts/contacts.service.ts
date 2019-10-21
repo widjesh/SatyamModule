@@ -84,6 +84,38 @@ export class ContactsService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
+
+    async save(userData: Customer) {
+        console.log("before save")
+        console.log(userData);
+        let CustomerToSave = {
+            title: userData.title,
+            "firstname": userData.firstname,
+            "lastname": userData.lastname,
+            "dob": userData.dob,
+            "nationality": userData.nationality,
+            "mobilenumber": userData.contact.mobilenumber,
+            "sms_sr": userData.contact.sms_sr,
+            "sms_nl": userData.contact.sms_nl,
+            "email": userData.contact.email,
+            "zip": userData.address.zip,
+            "city": userData.address.city,
+            "street": userData.address.street,
+            "country": userData.address.country,
+            "passportno": userData.passport.passportno,
+            "expirationdate": userData.passport.expirationdate
+        }
+
+        return new Promise((resolve, reject) => {
+            this._httpClient.post('http://172.19.142.76:3000/customers/', CustomerToSave)
+                .subscribe(response => {
+                    this.getUserData();
+                    this.getContacts();
+                    resolve(response);
+                });
+        });
+    }
+
     getContacts(): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient.get('http://172.19.142.76:3000/customers/')
@@ -230,11 +262,11 @@ export class ContactsService implements Resolve<any>
         console.log(customerToSave);
         return new Promise((resolve, reject) => {
 
-            this._httpClient.patch('http://172.19.142.76:3000/customers/update/' + customerToSave.contact.email, { ...customerToSave })
-                .subscribe(response => {
-                    this.getContacts();
-                    resolve(response);
-                });
+            // this._httpClient.patch('http://172.19.142.76:3000/customers/update/' + customerToSave.contact.email, { ...customerToSave })
+            //     .subscribe(response => {
+            //         this.getContacts();
+            //         resolve(response);
+            //     });
         });
     }
 
