@@ -72,10 +72,23 @@ export class ContactsContactFormDialogComponent {
 
     async onSubmit() {
 
-        let customerToSave = new Customer(this.contactForm.value);
-        const cus: any = await this.contactService.save(customerToSave);
-        await this._swal.notify('Success!', `Customer ${cus.firstname} has been saved`, 'success');
-        this.router.navigate(['/contacts']);
+        if (this.action == 'New') {
+            console.log('New')
+            //let customerToSave = new Customer(this.contactForm.value);
+            console.log("form value exact");
+            console.log(this.contactForm.value);
+            const cus: any = await this.contactService.save(this.contactForm.value);
+            await this._swal.notify('Success!', `Customer ${cus.firstname} has been saved`, 'success');
+            this.router.navigate(['/contacts']);
+        } else {
+            console.log('Edit')
+            console.log("form value exact");
+            console.log(this.contactForm.value);
+            const cus: any = await this.contactService.updateContact(this.contactForm.value);
+            await this._swal.notify('Success!', `Customer ${cus.firstname} has been updated`, 'success');
+            this.router.navigate(['/contacts']);
+        }
+
 
     }
 
@@ -93,20 +106,15 @@ export class ContactsContactFormDialogComponent {
                 lastname: [this.customer.lastname],
                 dob: [this.customer.dob],
                 nationality: [this.customer.nationality],
-
                 mobilenumber: [this.customer.contact.mobilenumber],
                 email: [this.customer.contact.email],
                 sms_sr: [this.customer.contact.sms_sr],
                 sms_nl: [this.customer.contact.sms_nl],
-
-
                 zip: [this.customer.address.zip],
                 city: [this.customer.address.city],
                 street: [this.customer.address.street],
                 country: [this.customer.address.country],
-
-
-                passportnumber: [this.customer.passport.passportno],
+                passportno: [this.customer.passport.passportno],
                 expirationdate: [this.customer.passport.expirationdate]
 
                 // bookings: [
@@ -156,26 +164,16 @@ export class ContactsContactFormDialogComponent {
                 nationality: [""],
                 dob: [Date.now],
                 customernumber: [""],
-                contact: this._formBuilder.group({
-                    mobilenumber: [""],
-                    email: [""],
-                    sms_sr: [""],
-                    sms_nl: [""]
-                }),
-                address: this._formBuilder.group({
-                    zip: [""],
-                    city: [""],
-                    street: [""],
-                    country: [""]
-                }),
-                passport: this._formBuilder.group({
-                    passportno: [""],
-                    expirationdate: [Date.now]
-                }),
-                modifiedby: this._formBuilder.group({
-                    user: [""],
-                    date: [""]
-                }),
+                mobilenumber: [""],
+                email: [""],
+                sms_sr: [""],
+                sms_nl: [""],
+                zip: [""],
+                city: [""],
+                street: [""],
+                country: [""],
+                user: [""],
+                date: [""]
 
                 // bookings: this._formBuilder.array([
                 //     this._formBuilder.group({

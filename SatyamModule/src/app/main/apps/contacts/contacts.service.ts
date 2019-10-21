@@ -239,34 +239,34 @@ export class ContactsService implements Resolve<any>
      * @returns {Promise<any>}
      */
     updateContact(customer): Promise<any> {
-        let customerToSave: Customer;
-        customerToSave.firstname = customer.firstname;
-        customerToSave.lastname = customer.lastname;
-        customerToSave.address.city = customer.city;
-        customerToSave.address.country = customer.country;
-        customerToSave.address.zip = customer.zip;
-        customerToSave.address.street = customer.street;
-        customerToSave.customernumber = customer.customernumber;
-        customerToSave.dob = customer.dob;
-        customerToSave.passport.passportno = customer.passportnumber;
-        customerToSave.passport.expirationdate = customer.expirationdate;
-        customerToSave.contact.mobilenumber = customer.phone;
-        customerToSave.contact.email = customer.email;
-        customerToSave.profilepicture = customer.profilepicture;
-        customerToSave.nationality = customer.nationality;
+        // let customerToSave: Customer;
+        // customerToSave.firstname = customer.firstname;
+        // customerToSave.lastname = customer.lastname;
+        // customerToSave.address.city = customer.city;
+        // customerToSave.address.country = customer.country;
+        // customerToSave.address.zip = customer.zip;
+        // customerToSave.address.street = customer.street;
+        // customerToSave.customernumber = customer.customernumber;
+        // customerToSave.dob = customer.dob;
+        // customerToSave.passport.passportno = customer.passportnumber;
+        // customerToSave.passport.expirationdate = customer.expirationdate;
+        // customerToSave.contact.mobilenumber = customer.phone;
+        // customerToSave.contact.email = customer.email;
+        // customerToSave.profilepicture = customer.profilepicture;
+        // customerToSave.nationality = customer.nationality;
 
 
-        console.log("customer");
-        console.log(customer);
-        console.log("customer to save")
-        console.log(customerToSave);
+
+        // console.log(customerToSave);
         return new Promise((resolve, reject) => {
+            console.log("customer before edit");
+            console.log(customer);
 
-            // this._httpClient.patch('http://172.19.142.76:3000/customers/update/' + customerToSave.contact.email, { ...customerToSave })
-            //     .subscribe(response => {
-            //         this.getContacts();
-            //         resolve(response);
-            //     });
+            this._httpClient.patch('http://172.19.142.76:3000/customers/update/' + customer.email, customer)
+                .subscribe(response => {
+                    this.getContacts();
+                    resolve(response);
+                });
         });
     }
 
