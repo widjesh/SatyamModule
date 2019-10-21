@@ -1,20 +1,14 @@
+
 import { Component, Inject, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import {
-    AbstractControl,
-    ValidationErrors,
-    ValidatorFn,
-    Validators
-} from "@angular/forms";
+
 // import { Contact } from "app/main/apps/contacts/contact.model";
 
-import { Customer, Booking } from "../customer.model";
-import { ContactsService } from "../contacts.service";
-import { SwalService } from "app/Services/swal.service";
-import { Router } from "@angular/router";
-import { Observable } from "rxjs";
-import { UserService } from "app/Services/user.service";
+import { Customer, Booking, Contact } from "../customer.model";
+import { ContactsService } from '../contacts.service';
+import { SwalService } from 'app/Services/swal.service';
+import { Router } from '@angular/router';
 
 export interface Choice {
     value: string;
@@ -28,6 +22,7 @@ export interface Choice {
     encapsulation: ViewEncapsulation.None
 })
 export class ContactsContactFormDialogComponent {
+
     action: string;
     //contact: Contact;
     customer: Customer;
@@ -56,23 +51,26 @@ export class ContactsContactFormDialogComponent {
         private _formBuilder: FormBuilder,
         private contactService: ContactsService,
         private _swal: SwalService,
-        private router: Router,
-        private userService: UserService,
-        private swalService: SwalService
+        private router: Router
     ) {
         // Set the defaults
         this.action = _data.action;
 
         if (this.action === "edit") {
-            console.log("Edit");
+            console.log('Edit')
             this.dialogTitle = "Edit Customer";
             this.customer = _data.contact;
         } else {
-            console.log("New");
+            console.log('New')
             this.dialogTitle = "New Customer";
             // this.customer = this.createEmptyCustomer();
         }
+
+        console.log("data contact : " + _data.contact);
+        console.log(this);
+        this.contactForm = this.createContactForm();
     }
+
     async onSubmit() {
 
         if (this.action == 'New') {
@@ -82,14 +80,15 @@ export class ContactsContactFormDialogComponent {
             console.log(this.contactForm.value);
             const cus: any = await this.contactService.save(this.contactForm.value);
             await this._swal.notify('Success!', `Customer ${cus.firstname} has been saved`, 'success');
-            this.router.navigate(['/contacts']);
+            this.matDialogRef.close("this");
+            //this.router.navigate(['apps/contacts']);
         } else {
             console.log('Edit')
             console.log("form value exact");
             console.log(this.contactForm.value);
             const cus: any = await this.contactService.updateContact(this.contactForm.value);
-            await this._swal.notify('Success!', `Customer ${cus.firstname} has been updated`, 'success');
-            this.router.navigate(['/contacts']);
+            await this._swal.notify('Success!', `Customer ${cus} has been updated`, 'success');
+            this.matDialogRef.close("this");
         }
 
 
@@ -217,9 +216,8 @@ export class ContactsContactFormDialogComponent {
                 // ])
             });
         }
+
     }
-
-
     // id      : [this.contact.id],
     // name    : [this.contact.name],
     // lastName: [this.contact.lastName],
@@ -233,17 +231,21 @@ export class ContactsContactFormDialogComponent {
     // birthday: [this.contact.birthday],
     // notes   : [this.contact.notes]
 
+
+
     // createEmptyCustomer(): Customer {
     //     let myCustomer: Customer;
     //     myCustomer.contact = new Contact();
     //     return myCustomer;
     // }
+
+
 }
 export class SelectOverviewExample {
     titles: Title[] = [
-        { value: "MR", viewValue: "MR" },
-        { value: "MRS", viewValue: "MRS" },
-        { value: "MS", viewValue: "MS" }
+        { value: 'MR', viewValue: 'MR' },
+        { value: 'MRS', viewValue: 'MRS' },
+        { value: 'MS', viewValue: 'MS' }
     ];
 }
 
@@ -251,3 +253,4 @@ export interface Title {
     value: string;
     viewValue: string;
 }
+
