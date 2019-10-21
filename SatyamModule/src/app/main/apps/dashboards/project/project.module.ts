@@ -9,13 +9,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatDialogModule} from '@angular/material'
+
 
 import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseSidebarModule } from '@fuse/components';
+import { FuseSidebarModule, FuseConfirmDialogModule } from '@fuse/components';
 import { FuseWidgetModule } from '@fuse/components/widget/widget.module';
 
 import { ProjectDashboardComponent } from 'app/main/apps/dashboards/project/project.component';
 import { ProjectDashboardService } from 'app/main/apps/dashboards/project/project.service';
+import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 
 const routes: Routes = [
     {
@@ -42,16 +45,17 @@ const routes: Routes = [
         MatSelectModule,
         MatTableModule,
         MatTabsModule,
-
+        MatDialogModule,
         NgxChartsModule,
-
         FuseSharedModule,
         FuseSidebarModule,
-        FuseWidgetModule
+        FuseWidgetModule,
+        FuseConfirmDialogModule
     ],
     providers   : [
         ProjectDashboardService
-    ]
+    ],
+    entryComponents:[FuseConfirmDialogComponent]
 })
 export class ProjectDashboardModule
 {

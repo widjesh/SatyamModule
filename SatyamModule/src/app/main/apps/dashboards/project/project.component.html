@@ -70,20 +70,13 @@
 
                                 <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
                                     <div class="light-blue-fg font-size-72 line-height-72">
-                                        {{widgets.widget1.data.count[widgets.widget1.currentRange]}}
+                                        {{users.length}}
                                     </div>
-                                    <div class="h3 secondary-text font-weight-500">{{widgets.widget1.data.label}}
+                                    <div class="h3 secondary-text font-weight-500">Employees
                                     </div>
                                 </div>
 
-                                <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
-                                    <span class="h4 secondary-text text-truncate">
-                                        {{widgets.widget1.data.extra.label}}:
-                                    </span>
-                                    <span class="h4 ml-8">
-                                        {{widgets.widget1.data.extra.count[widgets.widget1.currentRange]}}
-                                    </span>
-                                </div>
+
                             </div>
                             <!-- / Front -->
 
@@ -372,7 +365,7 @@
 
                         </fuse-widget>
                         <!-- / WIDGET 6 -->
-                       
+
                         <!-- WIDGET 7 -->
                         <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
                             fxFlex="100" fxFlex.gt-sm="50">
@@ -613,79 +606,76 @@
                                     fxLayoutAlign="space-between center">
                                     <div class="h2">{{widgets.widget11.title}}</div>
                                     <div class="text-boxed accent m-0">
-                                        {{widgets.widget11.table.rows.length}}
-                                        members
+                                        {{users.length}}
+                                        Employees
                                     </div>
                                 </div>
 
-                                <mat-table #table [dataSource]="widget11.dataSource">
+                                <table mat-table [dataSource]="users" class="mat-elevation-z8">
 
-                                    <!-- Avatar Column -->
-                                    <ng-container matColumnDef="avatar">
-                                        <mat-header-cell fxFlex="96px" *matHeaderCellDef></mat-header-cell>
-                                        <mat-cell fxFlex="96px" *matCellDef="let contact">
-                                            <img class="avatar" *ngIf="contact.avatar" [alt]="contact.name"
-                                                [src]="contact.avatar" />
-                                        </mat-cell>
+                                    <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+                                    <!-- Position Column -->
+                                    <ng-container matColumnDef="position">
+                                        <th mat-header-cell *matHeaderCellDef> Position </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
                                     </ng-container>
 
                                     <!-- Name Column -->
                                     <ng-container matColumnDef="name">
-                                        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-                                        <mat-cell *matCellDef="let contact">
-                                            <p class="text-truncate font-weight-600">{{contact.name}}
-                                                {{contact.lastName}}</p>
-                                        </mat-cell>
+                                        <th mat-header-cell *matHeaderCellDef> Name </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                                     </ng-container>
 
-                                    <!-- Position Column -->
-                                    <ng-container matColumnDef="position">
-                                        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Position
-                                        </mat-header-cell>
-                                        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
-                                            <p class="position text-truncate">
-                                                {{contact.position}}
-                                            </p>
-                                        </mat-cell>
-                                    </ng-container>
-
-                                    <!-- Office Column -->
-                                    <ng-container matColumnDef="office">
-                                        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Office
-                                        </mat-header-cell>
-                                        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-                                            <p class="office text-truncate">
-                                                {{contact.office}}
-                                            </p>
-                                        </mat-cell>
-                                    </ng-container>
-
-                                    <!-- Email Column -->
                                     <ng-container matColumnDef="email">
-                                        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Email
-                                        </mat-header-cell>
-                                        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
-                                            <p class="email text-truncate">
-                                                {{contact.email}}
-                                            </p>
-                                        </mat-cell>
+                                        <th mat-header-cell *matHeaderCellDef> email </th>
+                                        <td mat-cell *matCellDef="let element" > {{element.email}} </td>
+                                    </ng-container>
+
+
+                                    <!-- Admin Column -->
+                                    <ng-container matColumnDef="admin">
+                                        <th mat-header-cell *matHeaderCellDef> Admin </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.isadmin}} </td>
                                     </ng-container>
 
                                     <!-- Phone Column -->
                                     <ng-container matColumnDef="phone">
-                                        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Phone
-                                        </mat-header-cell>
-                                        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
-                                            <p class="phone text-truncate">
-                                                {{contact.phone}}
-                                            </p>
-                                        </mat-cell>
+                                        <th mat-header-cell *matHeaderCellDef> phone </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
                                     </ng-container>
 
-                                    <mat-header-row *matHeaderRowDef="widgets.widget11.table.columns"></mat-header-row>
-                                    <mat-row *matRowDef="let contact; columns: widgets.widget11.table.columns;">
-                                    </mat-row>
-                                </mat-table>
+                                    <!-- Action Column -->
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef> Action </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                                                (click)="$event.stopPropagation();">
+                                                <mat-icon class="secondary-text">more_vert</mat-icon>
+                                            </button>
+
+                                            <mat-menu #moreMenu="matMenu">
+                                                <button mat-menu-item aria-label="remove"
+                                                    (click)="deleteContact(element.email)">
+                                                    <mat-icon>delete</mat-icon>
+                                                    <span>Remove</span>
+                                                </button>
+                                            </mat-menu>
+
+                                        </td>
+                                    </ng-container>
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+
+
+
+                                <!-- Copyright 2019 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->
                             </div>
                             <!-- / Front -->
 
@@ -766,7 +756,8 @@
 
                             <div class="h4" fxLayout="row" fxLayoutAlign="start center">
                                 <mat-icon class="secondary-text mr-8">place</mat-icon>
-                                {{widgets.weatherWidget.locations[widgets.weatherWidget.currentLocation].name}}
+
+                                Suriname, Paramaribo
                             </div>
 
                             <div>
@@ -789,55 +780,15 @@
                                     [fontIcon]="widgets.weatherWidget.locations[widgets.weatherWidget.currentLocation].icon"
                                     class="icon s-40 secondary-text mr-16"></mat-icon>
                                 <span class="mat-display-2 m-0 font-weight-300 secondary-text">
-                                    {{widgets.weatherWidget.locations[widgets.weatherWidget.currentLocation].temp[widgets.weatherWidget.tempUnit]}}
+                                    {{weather}}
                                 </span>
                                 <span class="font-size-48 font-weight-300 hint-text text-super ml-8">°</span>
                                 <span class="mat-display-2 mb-0 font-weight-300 hint-text ng-binding">C</span>
                             </div>
                         </div>
 
-                        <div class="p-16 by" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div fxLayout="row" fxLayoutAlign="start center">
-                                <mat-icon fontSet="meteocons" fontIcon="icon-windy" class="s-16 secondary-text mr-8">
-                                </mat-icon>
-                                <span>
-                                    {{widgets.weatherWidget.locations[widgets.weatherWidget.currentLocation].windSpeed[widgets.weatherWidget.speedUnit]}}
-                                </span>
-                                <span class="secondary-text ml-5">{{widgets.weatherWidget.speedUnit}}</span>
-                            </div>
 
-                            <div fxLayout="row" fxLayoutAlign="start center">
-                                <mat-icon fontSet="meteocons" fontIcon="icon-compass" class="s-16 secondary-text mr-8">
-                                </mat-icon>
-                                <span>
-                                    {{widgets.weatherWidget.locations[widgets.weatherWidget.currentLocation].windDirection}}
-                                </span>
-                            </div>
 
-                            <div fxLayout="row" fxLayoutAlign="start center">
-                                <mat-icon fontSet="meteocons" fontIcon="icon-rainy" class="s-16 secondary-text mr-8">
-                                </mat-icon>
-                                <span>
-                                    {{widgets.weatherWidget.locations[widgets.weatherWidget.currentLocation].rainProbability}}
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="py-16">
-                            <div class="py-16 px-24" fxLayout="row" fxLayoutAlign="space-between center"
-                                *ngFor="let day of widgets.weatherWidget.locations[widgets.weatherWidget.currentLocation].next3Days">
-                                <span class="h4">{{day.name}}</span>
-                                <div fxLayout="row" fxLayoutAlign="start center">
-                                    <mat-icon fontSet="meteocons" [fontIcon]="day.icon" class="secondary-text mr-16">
-                                    </mat-icon>
-                                    <span class="h2">{{day.temp[widgets.weatherWidget.tempUnit]}}</span>
-                                    <span class="h2 font-weight-300 secondary-text text-super">&deg;</span>
-                                    <span class="h2 font-weight-300 secondary-text">
-                                        {{widgets.weatherWidget.tempUnit}}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
 
                     </div>
                     <!-- / Front -->
@@ -847,7 +798,7 @@
 
             </div>
             <!-- / WIDGET GROUP -->
-   
+
         </div>
         <!-- / SIDEBAR CONTENT -->
     </fuse-sidebar>
