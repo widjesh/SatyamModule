@@ -30,16 +30,26 @@
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <div fxLayout="row" fxLayoutAlign="start start">
-                        <mat-form-field fxFlex="10">
+                        <!-- <mat-form-field fxFlex="10">
                             <mat-label>Title</mat-label>
                             <mat-select>
                                 <mat-option *ngFor="let choice of choices" [value]="choice.value"
                                     formControlName="title">
-                                    <!-- {{choice.viewValue}} -->
+                                    {{choice.viewValue}}
                                     MR
                                 </mat-option>
                             </mat-select>
+                        </mat-form-field> -->
+
+                        <mat-form-field>
+                            <mat-label>Favorite food</mat-label>
+                            <mat-select formControlName="title">
+                                <mat-option *ngFor="let title of titles" [value]="title.value">
+                                    {{title.viewValue}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
+
                         <mat-form-field class="leftspace" fxFlex="20">
                             <mat-label>Firstname</mat-label>
                             <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
@@ -174,7 +184,7 @@
             <div class="space"></div>
 
             <!-- Booking Information -->
-            <mat-accordion>
+            <!-- <mat-accordion>
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
@@ -183,122 +193,191 @@
                         <mat-panel-description>
                             All booking information
                         </mat-panel-description>
-                    </mat-expansion-panel-header>
-                    <div formGroupName="bookings">
-                        <mat-form-field>
-                            <input matInput [matDatepicker]="pickers" name="expirationdate" formControlName="date"
-                                placeholder="date">
-                            <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
-                            <mat-datepicker #pickers></mat-datepicker>
-                        </mat-form-field>
-                        <div></div>
-                        <mat-form-field class="example-full-width">
-                            <textarea matInput placeholder="Leave a comment"></textarea>
-                        </mat-form-field>
+                    </mat-expansion-panel-header> -->
+            <!-- start -->
+            <!-- <div formArrayName="bookings">
 
-                        <mat-accordion>
-                            <mat-expansion-panel>
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        Booking Ammount Information
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        currency, ticket, insurance, visa, other, discount
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                                <mat-form-field>
-                                    <mat-label>Currency</mat-label>
-                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                                    <input name="currency" formControlName="currency" matInput>
-                                </mat-form-field>
-                                <div></div>
-                                <mat-form-field>
-                                    <input matInput placeholder="Ticket" type="number" class="example-right-align">
-                                    <span matPrefix>$&nbsp;</span>
-                                    <span matSuffix>.00</span>
-                                </mat-form-field>
-                                <div></div>
-                                <mat-form-field>
-                                    <input matInput placeholder="Insurance" type="number" class="example-right-align">
-                                    <span matPrefix>$&nbsp;</span>
-                                    <span matSuffix>.00</span>
-                                </mat-form-field>
-                                <div></div>
-                                <mat-form-field>
-                                    <input matInput placeholder="Visa" type="number" class="example-right-align">
-                                    <span matPrefix>$&nbsp;</span>
-                                    <span matSuffix>.00</span>
-                                </mat-form-field>
-                                <div></div>
-                                <mat-form-field>
-                                    <input matInput placeholder="Other" type="number" class="example-right-align">
-                                    <span matPrefix>$&nbsp;</span>
-                                    <span matSuffix>.00</span>
-                                </mat-form-field>
-                                <div></div>
-                                <mat-form-field>
-                                    <input matInput placeholder="Amount" type="number" class="example-right-align">
-                                    <span matPrefix>$&nbsp;</span>
-                                    <span matSuffix>.00</span>
-                                </mat-form-field>
-                            </mat-expansion-panel>
-                        </mat-accordion>
+                        <div *ngFor="let booking of contactForm.get('bookings').controls; let ix=index">
 
-                        <mat-accordion>
-                            <mat-expansion-panel>
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        Add Passengers
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        Firstname , Lastname
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                                <mat-form-field>
-                                    <mat-label>Firstname</mat-label>
-                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                                    <input name="pfirstname" formControlName="pfirstname" matInput>
-                                </mat-form-field>
-                                <mat-form-field>
-                                    <mat-label>Lastname</mat-label>
-                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                                    <input name="plastname" formControlName="plastname" matInput>
-                                </mat-form-field>
-                            </mat-expansion-panel>
-                        </mat-accordion>
+                           
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="pickers" name="expirationdate" formControlName="date"
+                                   placeholder="date">
+                                <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+                                <mat-datepicker #pickers></mat-datepicker>
+                            </mat-form-field>
+                            <div></div>
 
-                        <mat-accordion>
-                            <mat-expansion-panel>
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        Payment Information
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        Date, Amount, Type
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                                <mat-form-field>
-                                    <mat-label>Date</mat-label>
-                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                                    <input name="pdob" formControlName="pdob" matInput>
-                                </mat-form-field>
-                                <div></div>
-                                <mat-form-field>
-                                    <input matInput placeholder="Amount" type="number" class="example-right-align">
-                                    <span matPrefix>$&nbsp;</span>
-                                    <span matSuffix>.00</span>
-                                </mat-form-field>
-                                <div></div>
-                                <mat-form-field>
-                                    <mat-label>Type</mat-label>
-                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                                    <input name="type" formControlName="type" matInput>
-                                </mat-form-field>
-                            </mat-expansion-panel>
-                        </mat-accordion>
-                    </div>
-                </mat-expansion-panel>
-            </mat-accordion>
+                         
+                            <mat-form-field>
+                                <input matInput placeholder="Description" class="example-right-align">
+                                <span matPrefix>$&nbsp;</span>
+                                <span matSuffix>.00</span>
+                            </mat-form-field>
+
+                           
+                            <div formGroupName="price">
+                                <mat-accordion>
+                                    <mat-expansion-panel>
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                Booking Ammount Information
+                                            </mat-panel-title>
+                                            <mat-panel-description>
+                                                currency, ticket, insurance, visa, other, discount
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        <mat-form-field>
+                                            <mat-label>Currency</mat-label>
+                                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                            <input name="currency" formControlName="currency" matInput>
+                                        </mat-form-field>
+                                        <div></div>
+                                        <mat-form-field>
+                                            <input matInput placeholder="Ticket" type="number"
+                                                class="example-right-align">
+                                            <span matPrefix>$&nbsp;</span>
+                                            <span matSuffix>.00</span>
+                                        </mat-form-field>
+                                        <div></div>
+                                        <mat-form-field>
+                                            <input matInput placeholder="Insurance" type="number"
+                                                class="example-right-align">
+                                            <span matPrefix>$&nbsp;</span>
+                                            <span matSuffix>.00</span>
+                                        </mat-form-field>
+                                        <div></div>
+                                        <mat-form-field>
+                                            <input matInput placeholder="Visa" type="number"
+                                                class="example-right-align">
+                                            <span matPrefix>$&nbsp;</span>
+                                            <span matSuffix>.00</span>
+                                        </mat-form-field>
+                                        <div></div>
+                                        <mat-form-field>
+                                            <input matInput placeholder="Other" type="number"
+                                                class="example-right-align">
+                                            <span matPrefix>$&nbsp;</span>
+                                            <span matSuffix>.00</span>
+                                        </mat-form-field>
+                                        <div></div>
+                                        <mat-form-field>
+                                            <input matInput placeholder="Amount" type="number"
+                                                class="example-right-align">
+                                            <span matPrefix>$&nbsp;</span>
+                                            <span matSuffix>.00</span>
+                                        </mat-form-field>
+                                    </mat-expansion-panel>
+                                </mat-accordion>
+                            </div>
+
+                           
+                            <div formArrayName="passengers">
+                                <div *ngFor="let passenger of passengers; let pix=index">
+                                    <div formGroupName="pix">
+                                        <mat-accordion>
+                                            <mat-expansion-panel>
+                                                <mat-expansion-panel-header>
+                                                    <mat-panel-title>
+                                                        Passengers
+                                                    </mat-panel-title>
+                                                    <mat-panel-description>
+                                                        firstname, lastname, dateofbirth , passport number
+                                                    </mat-panel-description>
+                                                </mat-expansion-panel-header>
+
+                                                <mat-form-field>
+                                                    <mat-label>Passport No</mat-label>
+                                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                                    <input name="firstname" formControlName="firstname" matInput>
+                                                </mat-form-field>
+
+                                                <mat-form-field>
+                                                    <mat-label>Passport No</mat-label>
+                                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                                    <input name="lastname" formControlName="lastname" matInput>
+                                                </mat-form-field>
+
+
+                                                <mat-form-field>
+                                                    <mat-label>Birthday</mat-label>
+                                                    <input matInput [matDatepicker]="birthdayDatePicker" name="pdob"
+                                                        formControlName="pdob">
+                                                    <mat-datepicker-toggle matSuffix [for]="birthdayDatePicker">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #birthdayDatePickerpassenger></mat-datepicker>
+                                                </mat-form-field>
+
+
+                                                <mat-form-field>
+                                                    <mat-label>Passport No</mat-label>
+                                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                                    <input name="ppassportnumber" formControlName="ppassportnumber"
+                                                        matInput>
+                                                </mat-form-field>
+                                            </mat-expansion-panel>
+                                        </mat-accordion>
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+
+                            <div formArrayName="payments">
+                                <div *ngFor="let passenger of payments; let pix=index">
+                                    <div formGroupName="payments">
+                                        <mat-accordion>
+                                            <mat-expansion-panel>
+                                                <mat-expansion-panel-header>
+                                                    <mat-panel-title>
+                                                        Payment Information
+                                                    </mat-panel-title>
+                                                    <mat-panel-description>
+                                                        Date, Amount, Type
+                                                    </mat-panel-description>
+                                                </mat-expansion-panel-header>
+
+                                                <mat-form-field>
+                                                    <mat-label>Invoice no</mat-label>
+                                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                                    <input name="invoiceno" formControlName="invoiceno" matInput>
+                                                </mat-form-field>
+
+                                                <mat-form-field>
+                                                    <mat-label>Amount</mat-label>
+                                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                                    <input name="amount" formControlName="amount" matInput>
+                                                </mat-form-field>
+
+
+                                                <mat-form-field>
+                                                    <mat-label>Payment Date</mat-label>
+                                                    <input matInput [matDatepicker]="birthdayDatePicker"
+                                                        name="dateofpayment" formControlName="dateofpayment">
+                                                    <mat-datepicker-toggle matSuffix [for]="birthdayDatePicker">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #birthdayDatePickerpassenger></mat-datepicker>
+                                                </mat-form-field>
+
+                                                <mat-form-field>
+                                                    <mat-label>Type</mat-label>
+                                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                                    <input name="type" formControlName="type" matInput>
+                                                </mat-form-field>
+
+
+                                            </mat-expansion-panel>
+                                        </mat-accordion>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div> -->
+            <!-- end -->
+            <!-- </mat-expansion-panel>
+            </mat-accordion>-->
 
 
             <button mat-button>Save</button>

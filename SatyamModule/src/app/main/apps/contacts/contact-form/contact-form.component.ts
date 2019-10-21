@@ -5,6 +5,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 // import { Contact } from "app/main/apps/contacts/contact.model";
 
 import { Customer, Booking, Contact } from "../customer.model";
+import { ContactsService } from '../contacts.service';
+import { SwalService } from 'app/Services/swal.service';
+import { Router } from '@angular/router';
 
 export interface Choice {
     value: string;
@@ -44,7 +47,10 @@ export class ContactsContactFormDialogComponent {
     constructor(
         public matDialogRef: MatDialogRef<ContactsContactFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private contactService: ContactsService,
+        private _swal: SwalService,
+        private router: Router
     ) {
         // Set the defaults
         this.action = _data.action;
@@ -64,8 +70,13 @@ export class ContactsContactFormDialogComponent {
         this.contactForm = this.createContactForm();
     }
 
-    onSubmit() {
-        console.log(this.contactForm.value);
+    async onSubmit() {
+
+        let customerToSave = new Customer(this.contactForm.value);
+        const cus: any = await this.contactService.save(customerToSave);
+        await this._swal.notify('Success!', `Customer ${cus.firstname} has been saved`, 'success');
+        this.router.navigate(['/contacts']);
+
     }
 
     /**
@@ -98,41 +109,41 @@ export class ContactsContactFormDialogComponent {
                     passportnumber: [this.customer.passport.passportno],
                     expirationdate: [this.customer.passport.expirationdate]
                 }],
-                bookings: [
-                    {
-                        date: [this.customer.bookings[0].date],
-                        description: [this.customer.bookings[0].description],
-                        price: {
-                            currency: [this.customer.bookings[0].price.currency],
-                            ticket: [this.customer.bookings[0].price.ticket],
-                            insurance: [this.customer.bookings[0].price.insurance],
-                            visa: [this.customer.bookings[0].price.visa],
-                            other: [this.customer.bookings[0].price.other],
-                            discount: [this.customer.bookings[0].price.discount]
-                        },
-                        passengers: [
-                            {
-                                pfirstname: [this.customer.bookings[0].passengers[0].pfirstname],
-                                plastname: [this.customer.bookings[0].passengers[0].plastname],
-                                pdob: [this.customer.bookings[0].passengers[0].pdob],
-                                ppassportnumber: [
-                                    this.customer.bookings[0].passengers[0].ppassportnumber
-                                ]
-                            }
-                        ],
+                // bookings: [
+                //     {
+                //         date: [this.customer.bookings[0].date],
+                //         description: [this.customer.bookings[0].description],
+                //         price: {
+                //             currency: [this.customer.bookings[0].price.currency],
+                //             ticket: [this.customer.bookings[0].price.ticket],
+                //             insurance: [this.customer.bookings[0].price.insurance],
+                //             visa: [this.customer.bookings[0].price.visa],
+                //             other: [this.customer.bookings[0].price.other],
+                //             discount: [this.customer.bookings[0].price.discount]
+                //         },
+                //         passengers: [
+                //             {
+                //                 pfirstname: [this.customer.bookings[0].passengers[0].pfirstname],
+                //                 plastname: [this.customer.bookings[0].passengers[0].plastname],
+                //                 pdob: [this.customer.bookings[0].passengers[0].pdob],
+                //                 ppassportnumber: [
+                //                     this.customer.bookings[0].passengers[0].ppassportnumber
+                //                 ]
+                //             }
+                //         ],
 
-                        payments: [
-                            {
-                                invoiceno: [this.customer.bookings[0].payments[0].invoiceno],
-                                amount: [this.customer.bookings[0].payments[0].amount],
-                                dateofpayment: [
-                                    this.customer.bookings[0].payments[0].dateofpayement
-                                ],
-                                type: [this.customer.bookings[0].payments[0].type]
-                            }
-                        ]
-                    }
-                ]
+                //         payments: [
+                //             {
+                //                 invoiceno: [this.customer.bookings[0].payments[0].invoiceno],
+                //                 amount: [this.customer.bookings[0].payments[0].amount],
+                //                 dateofpayment: [
+                //                     this.customer.bookings[0].payments[0].dateofpayement
+                //                 ],
+                //                 type: [this.customer.bookings[0].payments[0].type]
+                //             }
+                //         ]
+                //     }
+                // ]
             });
         }
 
@@ -166,43 +177,43 @@ export class ContactsContactFormDialogComponent {
                     date: [""]
                 }),
 
-                bookings: this._formBuilder.array([
-                    this._formBuilder.group({
-                        date: [""],
-                        description: [""],
-                        price: this._formBuilder.group({
-                            currency: [""],
-                            ticket: [""],
-                            insurance: [""],
-                            visa: [""],
-                            other: [""],
-                            discount: [""]
-                        }),
-                        passengers: this._formBuilder.array([
-                            this._formBuilder.group(
-                                {
+                // bookings: this._formBuilder.array([
+                //     this._formBuilder.group({
+                //         date: [Date.now],
+                //         description: [""],
+                //         price: this._formBuilder.group({
+                //             currency: [""],
+                //             ticket: [""],
+                //             insurance: [""],
+                //             visa: [""],
+                //             other: [""],
+                //             discount: [""]
+                //         }),
+                //         passengers: this._formBuilder.array([
+                //             this._formBuilder.group(
+                //                 {
 
-                                    pfirstname: "",
-                                    plastname: "",
-                                    pdob: "",
-                                    ppassportnumber: ""
-                                }
-                            )
-                        ]),
+                //                     pfirstname: "",
+                //                     plastname: "",
+                //                     pdob: "",
+                //                     ppassportnumber: ""
+                //                 }
+                //             )
+                //         ]),
 
-                        payments: this._formBuilder.array([
-                            this._formBuilder.group(
-                                {
-                                    invoiceno: [""],
-                                    amount: [""],
-                                    dateofpayment: [Date.now],
-                                    type: [""]
-                                }
-                            )
-                        ])
+                //         payments: this._formBuilder.array([
+                //             this._formBuilder.group(
+                //                 {
+                //                     invoiceno: [""],
+                //                     amount: [""],
+                //                     dateofpayment: [Date.now],
+                //                     type: [""]
+                //                 }
+                //             )
+                //         ])
 
-                    })
-                ])
+                //     })
+                // ])
             });
         }
 
@@ -227,4 +238,18 @@ export class ContactsContactFormDialogComponent {
     //     myCustomer.contact = new Contact();
     //     return myCustomer;
     // }
+
+
+}
+export class SelectOverviewExample {
+    titles: Title[] = [
+        { value: 'MR', viewValue: 'MR' },
+        { value: 'MRS', viewValue: 'MRS' },
+        { value: 'MS', viewValue: 'MS' }
+    ];
+}
+
+export interface Title {
+    value: string;
+    viewValue: string;
 }

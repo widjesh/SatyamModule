@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     console.log(newUser);
     this.userService.registerUser(newUser).subscribe(async data => {
       await this.swalService.notify("Registered!", `Successfully registered ${data.name}`, "success");
-      this.router.navigate(["/dashboards/analytics"]);
+      this.router.navigate(["/app/dashboards/project"]);
     });
   }
 
