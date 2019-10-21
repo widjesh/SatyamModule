@@ -107,7 +107,7 @@ export class ContactsService implements Resolve<any>
         }
 
         return new Promise((resolve, reject) => {
-            this._httpClient.post('http://172.19.142.76:3000/customers/', CustomerToSave)
+            this._httpClient.post('http://localhost:3000/customers/', CustomerToSave)
                 .subscribe(response => {
                     this.getUserData();
                     this.getContacts();
@@ -118,7 +118,7 @@ export class ContactsService implements Resolve<any>
 
     getContacts(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient.get('http://172.19.142.76:3000/customers/')
+            this._httpClient.get('http://localhost:3000/customers/')
                 .subscribe((response: any) => {
 
                     this.customers = response;

@@ -1,13 +1,20 @@
 import { Component, Inject, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-
+import {
+    AbstractControl,
+    ValidationErrors,
+    ValidatorFn,
+    Validators
+} from "@angular/forms";
 // import { Contact } from "app/main/apps/contacts/contact.model";
 
-import { Customer, Booking, Contact } from "../customer.model";
-import { ContactsService } from '../contacts.service';
-import { SwalService } from 'app/Services/swal.service';
-import { Router } from '@angular/router';
+import { Customer, Booking } from "../customer.model";
+import { ContactsService } from "../contacts.service";
+import { SwalService } from "app/Services/swal.service";
+import { Router } from "@angular/router";
+import { Observable } from "rxjs";
+import { UserService } from "app/Services/user.service";
 
 export interface Choice {
     value: string;
@@ -21,7 +28,6 @@ export interface Choice {
     encapsulation: ViewEncapsulation.None
 })
 export class ContactsContactFormDialogComponent {
-
     action: string;
     //contact: Contact;
     customer: Customer;
@@ -50,26 +56,23 @@ export class ContactsContactFormDialogComponent {
         private _formBuilder: FormBuilder,
         private contactService: ContactsService,
         private _swal: SwalService,
-        private router: Router
+        private router: Router,
+        private userService: UserService,
+        private swalService: SwalService
     ) {
         // Set the defaults
         this.action = _data.action;
 
         if (this.action === "edit") {
-            console.log('Edit')
+            console.log("Edit");
             this.dialogTitle = "Edit Customer";
             this.customer = _data.contact;
         } else {
-            console.log('New')
+            console.log("New");
             this.dialogTitle = "New Customer";
             // this.customer = this.createEmptyCustomer();
         }
-
-        console.log("data contact : " + _data.contact);
-        console.log(this);
-        this.contactForm = this.createContactForm();
     }
-
     async onSubmit() {
 
         if (this.action == 'New') {
@@ -214,8 +217,9 @@ export class ContactsContactFormDialogComponent {
                 // ])
             });
         }
-
     }
+
+
     // id      : [this.contact.id],
     // name    : [this.contact.name],
     // lastName: [this.contact.lastName],
@@ -229,21 +233,17 @@ export class ContactsContactFormDialogComponent {
     // birthday: [this.contact.birthday],
     // notes   : [this.contact.notes]
 
-
-
     // createEmptyCustomer(): Customer {
     //     let myCustomer: Customer;
     //     myCustomer.contact = new Contact();
     //     return myCustomer;
     // }
-
-
 }
 export class SelectOverviewExample {
     titles: Title[] = [
-        { value: 'MR', viewValue: 'MR' },
-        { value: 'MRS', viewValue: 'MRS' },
-        { value: 'MS', viewValue: 'MS' }
+        { value: "MR", viewValue: "MR" },
+        { value: "MRS", viewValue: "MRS" },
+        { value: "MS", viewValue: "MS" }
     ];
 }
 

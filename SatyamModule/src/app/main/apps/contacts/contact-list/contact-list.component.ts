@@ -43,7 +43,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
   selectedContacts: any[];
   checkboxes: {};
   dialogRef: any;
-  confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+  confirmDialogRef: MatDialogRef<any>;
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -179,6 +179,19 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log();
+        this._contactsService.deleteContact(contact);
+      }
+      this.confirmDialogRef = null;
+    });
+  }
+
+   addBooking(contact): void {
+    this.confirmDialogRef = this._matDialog.open(ContactsContactListComponent, {
+      disableClose: false
+    });
+    
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
         this._contactsService.deleteContact(contact);
       }
       this.confirmDialogRef = null;
