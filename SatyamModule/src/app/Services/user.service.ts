@@ -20,7 +20,7 @@ export class UserService {
   }
 
   getAllUsers() {
-    return this.http.get<any>("http://localhost:3000/users");
+    return this.http.get<any>("http://172.19.142.76:3000/users");
   }
 
   deleteUser(email) {
