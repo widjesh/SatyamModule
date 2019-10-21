@@ -8,66 +8,26 @@ export class Customer {
   dob: Date;
   profilepicture: string;
   nationality: string;
-  contact: {
-    mobilenumber: string;
-    sms_sr: string;
-    sms_nl: string;
-    email: string;
-  };
-  address: {
-    zip: Number;
-    city: string;
-    street: string;
-    country: string;
-  };
-  passport: {
-    passportno: string;
-    expirationdate: Date;
-  };
-  bookings: [
-    {
-      number: string;
-      date: Date;
-      description: string;
-      price: {
-        currency: string;
-        ticket: Number;
-        insurance: Number;
-        visa: Number;
-        other: Number;
-        discount: Number;
-      };
+  contact: Contact;
+  address: Address;
+  passport: Passport;
+  bookings: Booking[];
+  modifiedby: Modifiedby;
 
-      passengers: [
-        {
-          pfirstname: string;
-          plastname: string;
-          pdob: Date;
-          ppassportnumber: string;
-        }
-      ];
-      payments: Payment[];
-    }
-  ];
-  modifiedby: {
-    user: Object;
-    date: Date;
-    default: Date;
-  };
 
-  constructor(customer) {
+  constructor(customer: Customer) {
     this.firstname = customer.firstname || "";
     this.lastname = customer.lastname || "";
-    this.customernumber = customer.customer || "";
+    this.customernumber = customer.customernumber || "";
     this.title = customer.title || "";
     this.profilepicture =
       customer.profilepicture || "assets/images/avatars/profile.jpg";
     this.nationality = customer.nationality || "";
-    this.contact = customer.contact || {};
-    this.address = customer.address || {};
-    this.passport = customer.passport || {};
+    this.contact = customer.contact || new Contact();
+    this.address = customer.address || new Address();
+    this.passport = customer.passport || new Passport();
     this.bookings = customer.bookings || [];
-    this.modifiedby = customer.modifiedby || {};
+    this.modifiedby = customer.modifiedby || new Modifiedby();
   }
 }
 
@@ -78,6 +38,23 @@ class Payment {
   type: string;
 }
 
+export class Contact {
+  mobilenumber: string;
+  sms_sr: string;
+  sms_nl: string;
+  email: string;
+}
+
+export class Passport {
+  passportno: string;
+  expirationdate: Date;
+}
+export class Address {
+  zip: Number;
+  city: string;
+  street: string;
+  country: string;
+};
 export class Booking {
   number: string;
   date: Date;
@@ -101,3 +78,9 @@ export class Booking {
   ];
   payments: Payment[];
 }
+
+export class Modifiedby {
+  user: Object;
+  date: Date;
+  default: Date;
+};
