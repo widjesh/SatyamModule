@@ -56,7 +56,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
    */
   constructor(
     private _contactsService: ContactsService,
-    public _matDialog: MatDialog
+    public _matDialog: MatDialog,
   ) {
     // Set the private defaults
     this._unsubscribeAll = new Subject();
@@ -178,6 +178,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
 
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
+        console.log();
         this._contactsService.deleteContact(contact);
       }
       this.confirmDialogRef = null;
