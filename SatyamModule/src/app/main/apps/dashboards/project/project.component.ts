@@ -222,7 +222,6 @@ export class ProjectDashboardComponent implements OnInit {
       this.weather = "27";
     }
     this.userService.getAllUsers().subscribe(u => {
-      console.log(u);
       this.users = u;
     });
   }
