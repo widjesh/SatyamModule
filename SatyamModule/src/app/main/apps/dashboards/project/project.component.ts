@@ -217,7 +217,6 @@ export class ProjectDashboardComponent implements OnInit {
         this.weather = parseInt(w.list[0].main.temp);
       }
     });
-
     if (this.weather === undefined) {
       this.weather = "27";
     }
