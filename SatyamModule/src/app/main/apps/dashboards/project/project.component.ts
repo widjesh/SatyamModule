@@ -160,11 +160,18 @@ export class ProjectDashboardComponent implements OnInit {
     this.widget11.onContactsChanged = new BehaviorSubject({});
     this.widget11.onContactsChanged.next(this.widgets.widget11.table.rows);
     this.widget11.dataSource = new FilesDataSource(this.widget11);
-
-    this._customersService.getCustomers().subscribe(data => {
-      this.customerscount = data.length;
-    })
-
+    this.weaterService.getWeather().subscribe(w => {
+      if (w) {
+        this.weather = parseInt(w.list[0].main.temp);
+      }
+    });
+    if (this.weather === undefined) {
+      this.weather = "27";
+    }
+    this.userService.getAllUsers().subscribe(u => {
+      console.log(u);
+      this.users = u;
+    });
   }
 
   // -----------------------------------------------------------------------------------------------------
