@@ -11,14 +11,13 @@ import { ContactsService } from 'app/main/apps/contacts/contacts.service';
 import { ContactsContactFormDialogComponent } from 'app/main/apps/contacts/contact-form/contact-form.component';
 
 @Component({
-    selector     : 'contacts',
-    templateUrl  : './contacts.component.html',
-    styleUrls    : ['./contacts.component.scss'],
+    selector: 'contacts',
+    templateUrl: './contacts.component.html',
+    styleUrls: ['./contacts.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class ContactsComponent implements OnInit, OnDestroy
-{
+export class ContactsComponent implements OnInit, OnDestroy {
     dialogRef: any;
     hasSelectedContacts: boolean;
     searchInput: FormControl;
@@ -37,8 +36,7 @@ export class ContactsComponent implements OnInit, OnDestroy
         private _contactsService: ContactsService,
         private _fuseSidebarService: FuseSidebarService,
         private _matDialog: MatDialog
-    )
-    {
+    ) {
         // Set the defaults
         this.searchInput = new FormControl('');
 
@@ -53,8 +51,7 @@ export class ContactsComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         this._contactsService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {
@@ -75,8 +72,7 @@ export class ContactsComponent implements OnInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -89,12 +85,11 @@ export class ContactsComponent implements OnInit, OnDestroy
     /**
      * New contact
      */
-    newContact(): void
-    {
+    newContact(): void {
         this.dialogRef = this._matDialog.open(ContactsContactFormDialogComponent, {
             panelClass: 'contact-form-dialog',
-            data      : {
-                action: 'new'
+            data: {
+                action: 'New'
             },
             width: '1250px',
             height: '850px'
@@ -102,8 +97,7 @@ export class ContactsComponent implements OnInit, OnDestroy
 
         this.dialogRef.afterClosed()
             .subscribe((response: FormGroup) => {
-                if ( !response )
-                {
+                if (!response) {
                     return;
                 }
 
@@ -116,8 +110,7 @@ export class ContactsComponent implements OnInit, OnDestroy
      *
      * @param name
      */
-    toggleSidebar(name): void
-    {
+    toggleSidebar(name): void {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
 }

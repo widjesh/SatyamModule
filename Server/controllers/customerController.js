@@ -212,36 +212,38 @@ router.patch('/addpayment/:email/:bookingnumber', async (req, res) => {
 
 });
 
-// router.patch("/updatepayment/:email/:bookingnumber/:invoiceno", async (req, res) => {
-//     const { em, bid, pid } = req.params
-//     try {
-//         const updatedcustomer = await Customer.updateOne(
-//             {
-//                 'contact.email': em,
-//                 // 'bookings.number': bid,
-//                 // 'bookings.payments': { $elemMatch: { invoiceno: req.body.invoiceno } },
-//                 'bookings': {
-//                     '$elemMatch': {
-//                         pid: bid, "payments.invoiceno": pid
-//                     }
-//                 }
-//             },
-//             {
-//                 $set: {
-//                     'bookings.$[outer].payments.$[inner].amount': req.body.amount,
-//                     'bookings.$[outer].payments.$[inner].date': req.body.date,
-//                     'bookings.$[outer].payments.$[inner].type': req.body.type
-//                 }
-//             }, { arrayFilters: [{ 'outer.number': bid }, { 'inner.invoiceno': pid }] });
-//         if (!updatedcustomer) {
-//             res.json({ message: `Invoice no ${req.params.invoiceno} did not update` });
-//         } else {
-//             res.send(updatedcustomer);//`Invoice no ${req.params.invoiceno} of customer id ${req.params.email} updated`
-//         }
-//     } catch (err) {
-//         res.send({ Error: err });
-//     }
-// });
+router.patch("/updatepayment/:email/:bookingnumber/:invoiceno", async (req, res) => {
+    const bid = req.params.bookingnumber
+    const pid = req.params.invoiceno
+    try {
+        const updatedcustomer = await Customer.updateOne(
+            {
+                'contacts.email': req.body.email,
+                'bookings.number': bid,
+                bookings: { $elemMatch: { 'payment.invoiceno': pid } }
+                // 'bookings.payments': { $elemMatch: { invoiceno: req.body.invoiceno } }
+                // 'bookings': {
+                //     '$elemMatch': {
+                //         pid: bid, "payments.invoiceno": pid
+                //     }
+                // }
+            },
+            {
+                $set: {
+                    'bookings.$[outer].payments.$[inner].amount': req.body.amount,
+                    'bookings.$[outer].payments.$[inner].date': req.body.date,
+                    'bookings.$[outer].payments.$[inner].type': req.body.type
+                }
+            }, { arrayFilters: [{ 'outer.number': bid }, { 'inner.invoiceno': pid }] });
+        if (!updatedcustomer) {
+            res.json({ message: `Invoice no ${req.params.invoiceno} did not update` });
+        } else {
+            res.send(updatedcustomer);//`Invoice no ${req.params.invoiceno} of customer id ${req.params.email} updated`
+        }
+    } catch (err) {
+        res.send({ Error: err });
+    }
+});
 
 
 router.patch('/addpassenger/:email/:bookingnumber', async (req, res) => {
