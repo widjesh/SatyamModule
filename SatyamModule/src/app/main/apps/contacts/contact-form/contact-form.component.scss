@@ -19,7 +19,7 @@
         }
 
         .toolbar-bottom {
-            height: auto;
+            height: 40px;
         }
     }
 
@@ -28,4 +28,12 @@
         display: flex;
         flex-direction: column;
     }
+
+    .leftspace{
+        margin-left: 1vw;
+    }
+    .space{
+        margin-bottom: 2vw
+    }
+
 }

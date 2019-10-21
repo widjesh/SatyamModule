@@ -8,126 +8,318 @@
         </mat-toolbar-row>
 
         <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
-            <img [src]="contact.avatar" class="avatar contact-avatar huge m-0"
-                 [alt]="contact.name"/>
-            <div class="contact-name mt-8">{{contact.name}} {{contact.lastName}}</div>
+            <!-- <img [src]="contact.avatar" class="avatar contact-avatar huge m-0"
+                 [alt]="contact.name"/> -->
+            <!-- <div class="contact-name mt-8">{{firstname}} {{lastname}}</div> -->
         </mat-toolbar-row>
     </mat-toolbar>
 
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
 
-        <form [formGroup]="contactForm">
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Name</mat-label>
-                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <input name="name" formControlName="name" matInput required>
-                </mat-form-field>
-            </div>
+            <!-- Personal Information -->
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Personal Information
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            Title, Firstname, Lastname, Birthday, Nationality
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                        <mat-form-field fxFlex="10">
+                            <mat-label>Title</mat-label>
+                            <mat-select>
+                                <mat-option *ngFor="let choice of choices" [value]="choice.value"
+                                    formControlName="title">
+                                    <!-- {{choice.viewValue}} -->
+                                    MR
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="leftspace" fxFlex="20">
+                            <mat-label>Firstname</mat-label>
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <input name="firstname" formControlName="firstname" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="leftspace" fxFlex="20">
+                            <mat-label>Lastname</mat-label>
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <input name="lastname" formControlName="lastname" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="leftspace" fxFlex="20">
+                            <mat-label>Birthday</mat-label>
+                            <input matInput [matDatepicker]="birthdayDatePicker" name="dob" formControlName="dob">
+                            <mat-datepicker-toggle matSuffix [for]="birthdayDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #birthdayDatePicker></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field class="leftspace" fxFlex="20">
+                            <mat-label>Nationality</mat-label>
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <input name="nationality" formControlName="nationality" matInput>
+                        </mat-form-field>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Lastname</mat-label>
-                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <input name="lastName" formControlName="lastName" matInput>
-                </mat-form-field>
-            </div>
+            <div class="space"></div>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Nickname</mat-label>
-                    <mat-icon matSuffix class="secondary-text">star</mat-icon>
-                    <input name="nickname" formControlName="nickname" matInput>
-                </mat-form-field>
-            </div>
+            <!-- Contact Information -->
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Contact Information
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            Mobile, Email, SMS_SR, SMS_NL
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div formGroupName="contact">
+                        <mat-form-field>
+                            <mat-label>Mobile No.</mat-label>
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <input name="mobilenumber" formControlName="mobilenumber" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="leftspace">
+                            <mat-label>Email.</mat-label>
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <input name="email" formControlName="email" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="leftspace">
+                            <mat-label>SMS Suriname.</mat-label>
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <input name="sms_sr" formControlName="sms_sr" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="leftspace">
+                            <mat-label>SMS Netherlands.</mat-label>
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <input name="sms_nl" formControlName="sms_nl" matInput>
+                        </mat-form-field>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Phone number</mat-label>
-                    <mat-icon matSuffix class="secondary-text">phone</mat-icon>
-                    <input formControlName="phone" matInput>
-                </mat-form-field>
-            </div>
+            <div class="space"></div>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Email</mat-label>
-                    <mat-icon matSuffix class="secondary-text">email</mat-icon>
-                    <input name="email" formControlName="email" matInput type="email">
-                </mat-form-field>
-            </div>
+            <!-- Address Information -->
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Address Information
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            Country, Street, City, Zip
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div formGroupName="address">
+                        <mat-form-field>
+                            <mat-label>County</mat-label>
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <input name="country" formControlName="country" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="leftspace">
+                            <mat-label>Street</mat-label>
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <input name="street" formControlName="street" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="leftspace">
+                            <mat-label>City</mat-label>
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <input name="city" formControlName="city" matInput>
+                        </mat-form-field>
+                        <mat-form-field class="leftspace">
+                            <mat-label>ZIP.</mat-label>
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <input name="zip" formControlName="zip" matInput>
+                        </mat-form-field>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Company</mat-label>
-                    <mat-icon matSuffix class="secondary-text">domain</mat-icon>
-                    <input name="company" formControlName="company" matInput>
-                </mat-form-field>
-            </div>
+            <div class="space"></div>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Job title</mat-label>
-                    <mat-icon matSuffix class="secondary-text">work</mat-icon>
-                    <input name="jobTitle" formControlName="jobTitle" matInput>
-                </mat-form-field>
-            </div>
+            <!-- Passport Information -->
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Passport Information
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            Passport No, Expiration Date
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div formGroupName="passport">
+                        <mat-form-field>
+                            <mat-label>Passport No</mat-label>
+                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <input name="passportno" formControlName="passportno" matInput>
+                        </mat-form-field>
+                        <div></div>
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="picker" name="expirationdate"
+                                formControlName="expirationdate" placeholder="Expiration Date">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Birthday</mat-label>
-                    <input matInput [matDatepicker]="birthdayDatePicker" name="birthday" formControlName="birthday">
-                    <mat-datepicker-toggle matSuffix [for]="birthdayDatePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #birthdayDatePicker></mat-datepicker>
-                </mat-form-field>
-            </div>
+            <div class="space"></div>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Address</mat-label>
-                    <mat-icon matSuffix class="secondary-text">home</mat-icon>
-                    <input name="address" formControlName="address" matInput>
-                </mat-form-field>
-            </div>
+            <!-- Booking Information -->
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Bookings
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            All booking information
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div formGroupName="bookings">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="pickers" name="expirationdate" formControlName="date"
+                                placeholder="date">
+                            <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+                            <mat-datepicker #pickers></mat-datepicker>
+                        </mat-form-field>
+                        <div></div>
+                        <mat-form-field class="example-full-width">
+                            <textarea matInput placeholder="Leave a comment"></textarea>
+                        </mat-form-field>
 
-            <div fxLayout="row" class="textarea-wrapper" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Notes</mat-label>
-                    <textarea name="notes" formControlName="notes" matInput type="text" max-rows="4"></textarea>
-                </mat-form-field>
-            </div>
+                        <mat-accordion>
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Booking Ammount Information
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        currency, ticket, insurance, visa, other, discount
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <mat-form-field>
+                                    <mat-label>Currency</mat-label>
+                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                    <input name="currency" formControlName="currency" matInput>
+                                </mat-form-field>
+                                <div></div>
+                                <mat-form-field>
+                                    <input matInput placeholder="Ticket" type="number" class="example-right-align">
+                                    <span matPrefix>$&nbsp;</span>
+                                    <span matSuffix>.00</span>
+                                </mat-form-field>
+                                <div></div>
+                                <mat-form-field>
+                                    <input matInput placeholder="Insurance" type="number" class="example-right-align">
+                                    <span matPrefix>$&nbsp;</span>
+                                    <span matSuffix>.00</span>
+                                </mat-form-field>
+                                <div></div>
+                                <mat-form-field>
+                                    <input matInput placeholder="Visa" type="number" class="example-right-align">
+                                    <span matPrefix>$&nbsp;</span>
+                                    <span matSuffix>.00</span>
+                                </mat-form-field>
+                                <div></div>
+                                <mat-form-field>
+                                    <input matInput placeholder="Other" type="number" class="example-right-align">
+                                    <span matPrefix>$&nbsp;</span>
+                                    <span matSuffix>.00</span>
+                                </mat-form-field>
+                                <div></div>
+                                <mat-form-field>
+                                    <input matInput placeholder="Amount" type="number" class="example-right-align">
+                                    <span matPrefix>$&nbsp;</span>
+                                    <span matSuffix>.00</span>
+                                </mat-form-field>
+                            </mat-expansion-panel>
+                        </mat-accordion>
 
+                        <mat-accordion>
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Add Passengers
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        Firstname , Lastname
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <mat-form-field>
+                                    <mat-label>Firstname</mat-label>
+                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                    <input name="pfirstname" formControlName="pfirstname" matInput>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>Lastname</mat-label>
+                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                    <input name="plastname" formControlName="plastname" matInput>
+                                </mat-form-field>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+                        <mat-accordion>
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Payment Information
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        Date, Amount, Type
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <mat-form-field>
+                                    <mat-label>Date</mat-label>
+                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                    <input name="pdob" formControlName="pdob" matInput>
+                                </mat-form-field>
+                                <div></div>
+                                <mat-form-field>
+                                    <input matInput placeholder="Amount" type="number" class="example-right-align">
+                                    <span matPrefix>$&nbsp;</span>
+                                    <span matSuffix>.00</span>
+                                </mat-form-field>
+                                <div></div>
+                                <mat-form-field>
+                                    <mat-label>Type</mat-label>
+                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                    <input name="type" formControlName="type" matInput>
+                                </mat-form-field>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+
+            <button mat-button>Save</button>
         </form>
 
     </div>
 
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
 
-        <button *ngIf="action === 'edit'"
-                mat-button
-                class="mr-8"
-                (click)="matDialogRef.close(['delete',contactForm])"
-                aria-label="Delete"
-                matTooltip="Delete">
+        <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',contactForm])"
+            aria-label="Delete" matTooltip="Delete">
             DELETE
         </button>
 
-        <button *ngIf="action !== 'edit'"
-                mat-button
-                class="save-button"
-                (click)="matDialogRef.close(contactForm)"
-                [disabled]="contactForm.invalid"
-                aria-label="SAVE">
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"
+            [disabled]="contactForm.invalid" aria-label="SAVE">
             ADD
         </button>
 
-        <button *ngIf="action === 'edit'"
-                mat-button
-                class="save-button"
-                (click)="matDialogRef.close(['save',contactForm])"
-                [disabled]="contactForm.invalid"
-                aria-label="SAVE">
+        <button *ngIf="action === 'edit'" mat-button class="save-button"
+            (click)="matDialogRef.close(['save',contactForm])" [disabled]="contactForm.invalid" aria-label="SAVE">
             SAVE
         </button>
 

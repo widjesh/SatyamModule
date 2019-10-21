@@ -1,0 +1,44 @@
+POST http://172.19.142.76:3000/customers/
+content-type: application/json
+{
+title:Mrs.
+firstname:Ann
+lastname:Smith
+dob:1987-5-15
+nationality:Dustch
+mobilenumber:123-456-0987
+sms_sr:
+sms_nl:123-456-0987
+email:ann@test.com
+zip:76855
+city:Amsterdam
+street:Fifth
+country:Suriname
+passportno:NL567786858
+expirationdate:2023-7-8
+}
+
+
+###
+
+
+POST http://172.19.142.76:3000/customers
+Content-Type: application/json
+
+{
+"title":"Mrs.",
+"firstname":"Ann",
+"lastname":"Smith",
+"dob":"1987-5-15",
+"nationality":"Dustch",
+"mobilenumber":"123-456-0987",
+"sms_sr":"",
+"sms_nl":"123-456-0987",
+"email":"ann@test.com",
+"zip":"76855",
+"city":"Amsterdam",
+"street":"Fifth",
+"country":"Suriname",
+"passportno":"NL567786858",
+"expirationdate":"2023-7-8"
+}
