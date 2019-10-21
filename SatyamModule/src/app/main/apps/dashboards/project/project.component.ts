@@ -21,6 +21,7 @@
     import { FuseConfirmDialogComponent } from "@fuse/components/confirm-dialog/confirm-dialog.component";
     import { Router } from "@angular/router";
     import { SwalService } from "app/Services/swal.service";
+import { CurrencyService } from 'app/Services/currency.service';
 
     export interface PeriodicElement {
       name: string;
@@ -56,6 +57,10 @@
       users: any;
       confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
 
+      eurusd:any;
+      usdsrd:any;
+      eursrd:any;
+
       widgets: any;
       widget5: any = {};
       widget6: any = {};
@@ -79,7 +84,8 @@
         private userService: UserService,
         public _matDialog: MatDialog,
         public router: Router,
-        public swalService: SwalService
+        public swalService: SwalService,
+        public currencyService : CurrencyService
       ) {
         /**
          * Widget 5
@@ -224,6 +230,23 @@
           console.log(u);
           this.users = u;
         });
+
+        this.currencyService.getEURtoUSD().subscribe((data)=>{
+          this.eurusd = data.from[0].mid;
+        });
+
+        this.currencyService.getEURtoSRD().subscribe((data)=>{
+          console.log(data.from[0].mid);
+          this.eursrd = data.from[0].mid;
+        });
+
+        this.currencyService.getUSDtoSRD().subscribe((data)=>{
+          this.usdsrd = data.from[0].mid;
+        });
+
+       
+
+
       }
 
       // -----------------------------------------------------------------------------------------------------

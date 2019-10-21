@@ -141,10 +141,10 @@ router.patch("/update/:email", async (req, res) => {
 
         if (updatedcustomer.n === 0) res.json({ message: `Customer ${req.params.email} not found` });
         else if (updatedcustomer.nModified === 0) res.send(`Customer ${req.params.email} updated with no change`);
-        else res.send(`Customer ${req.params.email} updated`);
+        else res.json(`Customer ${req.params.email} updated`);
 
     } catch (err) {
-        res.send({ Error: err });
+        res.json({ Error: err });
     }
 });
 
