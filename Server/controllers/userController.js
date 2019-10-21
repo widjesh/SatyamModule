@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
   try {
     const user = await User.find();
     if (!user) {
-      res.send("Users Not Found");
+      res.json({ message: "Users Not Found" });
     } else {
       res.send(user);
     }
@@ -21,9 +21,9 @@ router.get("/:email", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.params.email });
     if (!user) {
-      res.json(`${req.params.email} not found`);
+      res.json({ message: `${req.params.email} not found` });
     } else {
-      res.json(user);
+      res.send(user);
     }
   } catch (err) {
     res.json({ Error: err });
@@ -33,6 +33,7 @@ router.get("/:email", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const user = new User({
+      userno: new ObjectId(),
       name: req.body.name,
       position: req.body.position,
       email: req.body.email,
@@ -42,7 +43,7 @@ router.post("/", async (req, res) => {
     });
     const newUser = await user.save();
     if (!newUser) {
-      res.send('User Cannot be Saved');
+      res.json({ message: 'User Cannot be Saved' });
     } else {
       res.send(user);
     }
@@ -65,7 +66,8 @@ router.post("/login", async (req, res) => {
         const token = jwt.sign(
           {
             email: foundUser.email,
-            userId: foundUser._id
+            isadmin: foundUser.isadmin,
+            userno: foundUser.userno
           },
           process.env.SECRET_KEY,
           {
@@ -84,21 +86,21 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.put("/updatepassword/:email", async (req, res) => {
+router.patch("/updatepassword/:email", async (req, res) => {
   try {
     const user = await User.update({ email: req.params.email }, { $set: { password: bcrypt.hashSync(req.body.password, 10) } })
     if (user) res.send(`Password for ${req.params.email} Changed`)
-    else res.send('Password Not Updated')
+    else res.json({ message: 'Password Not Updated' })
   } catch (err) {
     res.send({ Error: err });
   }
 })
 
-router.put("/updaterole/:email", async (req, res) => {
+router.patch("/updaterole/:email", async (req, res) => {
   try {
     const user = await User.updateOne({ email: req.params.email }, { $set: { isadmin: req.body.isadmin } })
     if (user) res.send(`Role for ${req.params.email} Updated to ADMIN: ${req.body.isadmin}`)
-    else res.send('Role Not Updated')
+    else res.json({ message: 'Role Not Updated' })
   } catch (err) {
     res.send({ Error: err });
   }
@@ -107,7 +109,8 @@ router.put("/updaterole/:email", async (req, res) => {
 router.delete("/remove/:email", async (req, res) => {
   try {
     const user = await User.deleteOne({ email: req.params.email })
-    if (user) res.send(`User ${user.email} successfully removed`)
+    if (user.deletedCount === 0) res.json({ message: `User ${req.params.email} not found` })
+    else if (user.deletedCount === 1) res.send(`User ${req.params.email} successfully removed`)
     else res.json({ message: 'Remove Unseccesful' })
   } catch (err) {
     res.send({ Error: err });
