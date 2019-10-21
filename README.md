@@ -15,28 +15,30 @@ userController - completed
 
 customerController - completed
 
-| Verb     | URL                                                | Function                            |
-| :------- |:---------------------------------------------------| :-----------------------------------|
-| `GET`    | customers/                                         | Get all customers                   |
-| `GET`    | customers/:email/                                  | Get a customer by email             |
-| `GET`    | customers/:firstname/                              | Get a customer by firstname         |
-| `GET`    | customers/:lastname/                               | Get a customer by lastname          |
-| `GET`    | customers/:nationality/                            | Get a customer by nationality       |
-| `PUT`    | customers/addbooking/:email/                       | Add booking to a customer           |
-| `PUT`    | customers/addpassenger/:email/:bookingnumber       | Add passenger to a booking          |
-| `DELETE` | customers/remove/:email/                           | delete whole customer               |
-| `PATCH`  | customers/update/:email/                           | Update a customer                   |
-| `PATCH`  | customers/addpayment/:email/:bookingnumber         | Add payment to a booking            |
-| `PATCH`  | customers/updatebooking/:email/:bookingnumber/     | Update booking of a customer        |
+| Verb     | URL                                                         | Function                         |
+| :------- |:------------------------------------------------------------| :--------------------------------|
+| `GET`    | customers/                                                  | Get all customers                |
+| `GET`    | customers/:email/                                           | Get a customer by email          |
+| `GET`    | customers/:firstname/                                       | Get a customer by firstname      |
+| `GET`    | customers/:lastname/                                        | Get a customer by lastname       |
+| `GET`    | customers/:nationality/                                     | Get a customer by nationality    |
+| `POST`   | customers/                                                  | Add a customer                   |
+| `PATCH`  | customers/addbooking/:email/                                | Add booking to a customer        |
+| `PATCH`  | customers/addpassenger/:email/:bookingnumber                | Add passenger to a booking       |
+| `DELETE` | customers/remove/:email/                                    | delete whole customer            |
+| `PATCH`  | customers/update/:email/                                    | Update a customer                |
+| `PATCH`  | customers/addpayment/:email/:bookingnumber                  | Add payment to a booking         |
+| `PATCH`  | customers/updatebooking/:email/:bookingnumber/              | Update booking of a customer     |
+| `PATCH`  | customers/removebooking/:email/:bookingnumber               | delete booking of a customer     |
+| `PATCH`  | customers/removepayment/:email/:bookingnumber/:paymentid    | delete booking of a customer     |
+| `PATCH`  | customers/removepassenger/:email/:bookingnumber/:passengerid| delete a passenger from a booking|
 
 customerController - on progress
 
 | Verb     | URL                                                | Function                                  |
 | :------- |:---------------------------------------------------| :-----------------------------------------|
-| `PUT`    | customers/updatepayment/:email/:bookingnumber/:paymentnumber | update payment                  |
-| `DELETE` | customers/removebooking/:email/:bookingnumber      | delete booking of a customer              |
-| `DELETE` | customers/removepayment/:email/:bookingnumber/:paymentnumber | delete booking of a customer    |
-| `DELETE` | customers/removepassenger/:email/:bookingnumber/:passenger  | delete a passenger from a booking|
+| `PUT`    | customers/updatepayment/:email/:bookingnumber/:invoiceno | update payment                      |
+
 
 
 
