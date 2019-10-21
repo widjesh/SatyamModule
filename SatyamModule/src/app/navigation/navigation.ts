@@ -61,8 +61,8 @@ export const navigation: FuseNavigation[] = [
                         exactMatch: true
                     },
                     {
-                        id: 'ManageUsers',
-                        title: 'Manage Users',
+                        id: 'GitHub stat',
+                        title: 'GitHub stat',
                         type: 'item',
                         url: '/apps/e-commerce/products',
 

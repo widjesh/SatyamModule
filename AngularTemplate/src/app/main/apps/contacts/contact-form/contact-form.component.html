@@ -8,8 +8,7 @@
         </mat-toolbar-row>
 
         <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
-            <img [src]="contact.avatar" class="avatar contact-avatar huge m-0"
-                 [alt]="contact.name"/>
+            <img [src]="contact.avatar" class="avatar contact-avatar huge m-0" [alt]="contact.name" />
             <div class="contact-name mt-8">{{contact.name}} {{contact.lastName}}</div>
         </mat-toolbar-row>
     </mat-toolbar>
@@ -37,12 +36,12 @@
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Nickname</mat-label>
-                    <mat-icon matSuffix class="secondary-text">star</mat-icon>
+                    <mat-icon matSuffix class="secondary-text">book</mat-icon>
                     <input name="nickname" formControlName="nickname" matInput>
                 </mat-form-field>
             </div>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
+            <div fxLayout="row" fxLayoutAlign=" start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Phone number</mat-label>
                     <mat-icon matSuffix class="secondary-text">phone</mat-icon>
@@ -58,7 +57,7 @@
                 </mat-form-field>
             </div>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
+            <!-- <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Company</mat-label>
                     <mat-icon matSuffix class="secondary-text">domain</mat-icon>
@@ -72,7 +71,7 @@
                     <mat-icon matSuffix class="secondary-text">work</mat-icon>
                     <input name="jobTitle" formControlName="jobTitle" matInput>
                 </mat-form-field>
-            </div>
+            </div> -->
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
@@ -104,30 +103,18 @@
 
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
 
-        <button *ngIf="action === 'edit'"
-                mat-button
-                class="mr-8"
-                (click)="matDialogRef.close(['delete',contactForm])"
-                aria-label="Delete"
-                matTooltip="Delete">
+        <button *ngIf="action === 'edit'" mat-button class="mr-8" (click)="matDialogRef.close(['delete',contactForm])"
+            aria-label="Delete" matTooltip="Delete">
             DELETE
         </button>
 
-        <button *ngIf="action !== 'edit'"
-                mat-button
-                class="save-button"
-                (click)="matDialogRef.close(contactForm)"
-                [disabled]="contactForm.invalid"
-                aria-label="SAVE">
+        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="matDialogRef.close(contactForm)"
+            [disabled]="contactForm.invalid" aria-label="SAVE">
             ADD
         </button>
 
-        <button *ngIf="action === 'edit'"
-                mat-button
-                class="save-button"
-                (click)="matDialogRef.close(['save',contactForm])"
-                [disabled]="contactForm.invalid"
-                aria-label="SAVE">
+        <button *ngIf="action === 'edit'" mat-button class="save-button"
+            (click)="matDialogRef.close(['save',contactForm])" [disabled]="contactForm.invalid" aria-label="SAVE">
             SAVE
         </button>
 

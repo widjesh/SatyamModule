@@ -93,22 +93,22 @@ export class ContactsContactFormDialogComponent {
                 lastname: [this.customer.lastname],
                 dob: [this.customer.dob],
                 nationality: [this.customer.nationality],
-                contact: [{
-                    mobilenumber: [this.customer.contact.mobilenumber],
-                    email: [this.customer.contact.email],
-                    sms_sr: [this.customer.contact.sms_sr],
-                    sms_nl: [this.customer.contact.sms_nl]
-                }],
-                address: [{
-                    zip: [this.customer.address.zip],
-                    city: [this.customer.address.city],
-                    street: [this.customer.address.street],
-                    country: [this.customer.address.country]
-                }],
-                passport: [{
-                    passportnumber: [this.customer.passport.passportno],
-                    expirationdate: [this.customer.passport.expirationdate]
-                }],
+
+                mobilenumber: [this.customer.contact.mobilenumber],
+                email: [this.customer.contact.email],
+                sms_sr: [this.customer.contact.sms_sr],
+                sms_nl: [this.customer.contact.sms_nl],
+
+
+                zip: [this.customer.address.zip],
+                city: [this.customer.address.city],
+                street: [this.customer.address.street],
+                country: [this.customer.address.country],
+
+
+                passportnumber: [this.customer.passport.passportno],
+                expirationdate: [this.customer.passport.expirationdate]
+
                 // bookings: [
                 //     {
                 //         date: [this.customer.bookings[0].date],

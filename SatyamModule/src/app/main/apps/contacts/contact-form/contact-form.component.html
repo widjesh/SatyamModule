@@ -1,7 +1,7 @@
 <div class="dialog-content-wrapper">
     <mat-toolbar matDialogTitle class="mat-accent m-0">
         <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
-            <span class="title dialog-title">{{dialogTitle}}</span>
+            <span class="title dialog-title">{{dialogTitle}} </span>
             <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
                 <mat-icon>close</mat-icon>
             </button>
@@ -17,7 +17,7 @@
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
 
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-
+            {{mobilenumber}}
             <!-- Personal Information -->
             <mat-accordion>
                 <mat-expansion-panel>
@@ -42,9 +42,9 @@
                         </mat-form-field> -->
 
                         <mat-form-field>
-                            <mat-label>Favorite food</mat-label>
+                            <mat-label>Title</mat-label>
                             <mat-select formControlName="title">
-                                <mat-option *ngFor="let title of titles" [value]="title.value">
+                                <mat-option *ngFor="let ti of titles" [value]="ti.value">
                                     {{title.viewValue}}
                                 </mat-option>
                             </mat-select>
@@ -62,13 +62,13 @@
                         </mat-form-field>
                         <mat-form-field class="leftspace" fxFlex="20">
                             <mat-label>Birthday</mat-label>
-                            <input matInput [matDatepicker]="birthdayDatePicker" name="dob" formControlName="dob">
+                            <input matInput [matDatepicker]="birthdayDatePicker" name="dob" [formControlName]="dob">
                             <mat-datepicker-toggle matSuffix [for]="birthdayDatePicker"></mat-datepicker-toggle>
                             <mat-datepicker #birthdayDatePicker></mat-datepicker>
                         </mat-form-field>
                         <mat-form-field class="leftspace" fxFlex="20">
                             <mat-label>Nationality</mat-label>
-                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <mat-icon matSuffix class="secondary-text">flag</mat-icon>
                             <input name="nationality" formControlName="nationality" matInput>
                         </mat-form-field>
                     </div>
@@ -88,25 +88,25 @@
                             Mobile, Email, SMS_SR, SMS_NL
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <div formGroupName="contact">
+                    <div>
                         <mat-form-field>
                             <mat-label>Mobile No.</mat-label>
-                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <mat-icon matSuffix class="secondary-text">phone</mat-icon>
                             <input name="mobilenumber" formControlName="mobilenumber" matInput>
                         </mat-form-field>
                         <mat-form-field class="leftspace">
                             <mat-label>Email.</mat-label>
-                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <mat-icon matSuffix class="secondary-text">email</mat-icon>
                             <input name="email" formControlName="email" matInput>
                         </mat-form-field>
                         <mat-form-field class="leftspace">
                             <mat-label>SMS Suriname.</mat-label>
-                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <mat-icon matSuffix class="secondary-text">phone</mat-icon>
                             <input name="sms_sr" formControlName="sms_sr" matInput>
                         </mat-form-field>
                         <mat-form-field class="leftspace">
                             <mat-label>SMS Netherlands.</mat-label>
-                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <mat-icon matSuffix class="secondary-text">phone</mat-icon>
                             <input name="sms_nl" formControlName="sms_nl" matInput>
                         </mat-form-field>
                     </div>
@@ -126,25 +126,25 @@
                             Country, Street, City, Zip
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <div formGroupName="address">
+                    <div>
                         <mat-form-field>
                             <mat-label>County</mat-label>
-                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <mat-icon matSuffix class="secondary-text">flag</mat-icon>
                             <input name="country" formControlName="country" matInput>
                         </mat-form-field>
                         <mat-form-field class="leftspace">
                             <mat-label>Street</mat-label>
-                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <mat-icon matSuffix class="secondary-text">navigation</mat-icon>
                             <input name="street" formControlName="street" matInput>
                         </mat-form-field>
                         <mat-form-field class="leftspace">
                             <mat-label>City</mat-label>
-                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
                             <input name="city" formControlName="city" matInput>
                         </mat-form-field>
                         <mat-form-field class="leftspace">
                             <mat-label>ZIP.</mat-label>
-                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <mat-icon matSuffix class="secondary-text">code</mat-icon>
                             <input name="zip" formControlName="zip" matInput>
                         </mat-form-field>
                     </div>
@@ -164,10 +164,10 @@
                             Passport No, Expiration Date
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <div formGroupName="passport">
+                    <div>
                         <mat-form-field>
                             <mat-label>Passport No</mat-label>
-                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                            <mat-icon matSuffix class="secondary-text">book</mat-icon>
                             <input name="passportno" formControlName="passportno" matInput>
                         </mat-form-field>
                         <div></div>
@@ -378,7 +378,6 @@
             <!-- end -->
             <!-- </mat-expansion-panel>
             </mat-accordion>-->
-
 
             <button mat-button>Save</button>
         </form>
