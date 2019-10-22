@@ -4,6 +4,22 @@ const jwt = require("jsonwebtoken");
 var ObjectId = require("mongoose").Types.ObjectId;
 var User = require("../models/user");
 
+function verifyToken(req, res, next) {
+  if (!req.headers.authorization) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  let token = req.headers.authorization.split(" ")[1];
+  if (token === "null") {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  let payload = jwt.verify(token, process.env.SECRET_KEY);
+  if (!payload) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  req.userId = payload.subject;
+  next();
+}
+
 router.get("/", async (req, res) => {
   try {
     const user = await User.find();
@@ -43,7 +59,7 @@ router.post("/", async (req, res) => {
     });
     const newUser = await user.save();
     if (!newUser) {
-      res.json({ message: 'User Cannot be Saved' });
+      res.json({ message: "User Cannot be Saved" });
     } else {
       res.json(user);
     }
@@ -51,7 +67,6 @@ router.post("/", async (req, res) => {
     res.json({ Error: err });
   }
 });
-
 
 router.post("/login", async (req, res) => {
   try {
@@ -67,7 +82,7 @@ router.post("/login", async (req, res) => {
           {
             email: foundUser.email,
             isadmin: foundUser.isadmin,
-            userno: foundUser.userno,
+            userno: foundUser.userno
           },
           process.env.SECRET_KEY,
           {
@@ -88,33 +103,44 @@ router.post("/login", async (req, res) => {
 
 router.patch("/updatepassword/:email", async (req, res) => {
   try {
-    const user = await User.update({ email: req.params.email }, { $set: { password: bcrypt.hashSync(req.body.password, 10) } })
-    if (user) res.json({ message: `Password for ${req.params.email} Changed` })
-    else res.json({ message: 'Password Not Updated' })
+    const user = await User.update(
+      { email: req.params.email },
+      { $set: { password: bcrypt.hashSync(req.body.password, 10) } }
+    );
+    if (user) res.json({ message: `Password for ${req.params.email} Changed` });
+    else res.json({ message: "Password Not Updated" });
   } catch (err) {
     res.json({ Error: err });
   }
-})
+});
 
 router.patch("/updaterole/:email", async (req, res) => {
   try {
-    const user = await User.updateOne({ email: req.params.email }, { $set: { isadmin: req.body.isadmin } })
-    if (user) res.json({ message: `Role for ${req.params.email} Updated to ADMIN: ${req.body.isadmin}` })
-    else res.json({ message: 'Role Not Updated' })
+    const user = await User.updateOne(
+      { email: req.params.email },
+      { $set: { isadmin: req.body.isadmin } }
+    );
+    if (user)
+      res.json({
+        message: `Role for ${req.params.email} Updated to ADMIN: ${req.body.isadmin}`
+      });
+    else res.json({ message: "Role Not Updated" });
   } catch (err) {
     res.json({ Error: err });
   }
-})
+});
 
 router.delete("/remove/:email", async (req, res) => {
   try {
-    const user = await User.deleteOne({ email: req.params.email })
-    if (user.deletedCount === 0) res.json({ message: `User ${req.params.email} not found` })
-    else if (user.deletedCount === 1) res.json({ message: `User ${req.params.email} successfully removed` })
-    else res.json({ message: 'Remove Unseccesful' })
+    const user = await User.deleteOne({ email: req.params.email });
+    if (user.deletedCount === 0)
+      res.json({ message: `User ${req.params.email} not found` });
+    else if (user.deletedCount === 1)
+      res.json({ message: `User ${req.params.email} successfully removed` });
+    else res.json({ message: "Remove Unseccesful" });
   } catch (err) {
     res.json({ Error: err });
   }
-})
+});
 
 module.exports = router;

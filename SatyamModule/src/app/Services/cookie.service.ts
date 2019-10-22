@@ -23,4 +23,8 @@ export class CookieService {
   loggedIn(){
     return !!Cookie.get('token');
   }
+
+  getToken(){
+    return Cookie.get('token');
+  }
 }

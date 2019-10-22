@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
         console.log(data.token);
         localStorage.setItem('usertoken',data.token);
         this.router.navigate(["/apps/dashboards/project"]);
-        this.cookieService.setAuth(data.name)
+        this.cookieService.setAuth(data.token);
       }
     });
     console.log(this.loginForm.value);

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
@@ -27,13 +27,14 @@ import { ContactsSelectedBarComponent } from './main/apps/contacts/selected-bar/
 import { ContactsMainSidebarComponent } from './main/apps/contacts/sidebars/main/main.component';
 import { ContactsContactListComponent } from './main/apps/contacts/contact-list/contact-list.component';
 import { AuthGuard } from './auth.guard';
+import { TokenInterceptorService } from './token-interceptor.service';
 
 
 const appRoutes: Routes = [
     {
         path        : 'apps',
         loadChildren: './main/apps/apps.module#AppsModule',
-        canActivate : [AuthGuard]
+        // canActivate : [AuthGuard]
     },
     {
         path        : 'pages',
@@ -94,7 +95,12 @@ const appRoutes: Routes = [
     bootstrap   : [
         AppComponent
     ],
-    providers:[SwalService, AuthGuard],
+    providers:[SwalService, AuthGuard, 
+    {
+        provide : HTTP_INTERCEPTORS,
+        useClass:TokenInterceptorService,
+        multi:true
+    }],
 })
 export class AppModule
 {
