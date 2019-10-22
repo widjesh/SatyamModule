@@ -26,12 +26,14 @@ import { ContactsComponent } from './main/apps/contacts/contacts.component';
 import { ContactsSelectedBarComponent } from './main/apps/contacts/selected-bar/selected-bar.component';
 import { ContactsMainSidebarComponent } from './main/apps/contacts/sidebars/main/main.component';
 import { ContactsContactListComponent } from './main/apps/contacts/contact-list/contact-list.component';
+import { AuthGuard } from './auth.guard';
 
 
 const appRoutes: Routes = [
     {
         path        : 'apps',
-        loadChildren: './main/apps/apps.module#AppsModule'
+        loadChildren: './main/apps/apps.module#AppsModule',
+        canActivate : [AuthGuard]
     },
     {
         path        : 'pages',
@@ -92,7 +94,7 @@ const appRoutes: Routes = [
     bootstrap   : [
         AppComponent
     ],
-    providers:[SwalService],
+    providers:[SwalService, AuthGuard],
 })
 export class AppModule
 {

@@ -19,4 +19,8 @@ export class CookieService {
   deleteAuth(): void {
     Cookie.delete('token');
   }
+
+  loggedIn(){
+    return !!Cookie.get('token');
+  }
 }

@@ -24,7 +24,7 @@ import { LayoutModule } from 'app/layout/layout.module';
 const appRoutes: Routes = [
     {
         path        : 'apps',
-        loadChildren: './main/apps/apps.module#AppsModule'
+        loadChildren: './main/apps/apps.module#AppsModule',
     },
     {
         path        : 'pages',
