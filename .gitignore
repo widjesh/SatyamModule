@@ -1,6 +1,7 @@
 Server/node_modules
 SatyamModule/node_modules
 justtext.txt
+.env
 node_modules/rxjs/_esm2015/ajax/index.js
 node_modules/rxjs/_esm2015/ajax/index.js.map
 node_modules/rxjs/_esm2015/fetch/index.js
