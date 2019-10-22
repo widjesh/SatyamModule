@@ -68,15 +68,14 @@ export class Booking {
     discount: Number;
   };
 
-  passengers: [
+  passengers:
     {
       pfirstname: string;
       plastname: string;
       pdob: Date;
       ppassportnumber: string;
     }
-  ];
-  payments: Payment[];
+  payments: Payment;
 }
 
 export class Modifiedby {

@@ -165,9 +165,9 @@ router.patch('/addbooking/:email', async (req, res) => {
     try {
         const customer = await Customer.update({ 'contact.email': req.params.email }, { $push: { bookings: newbooking } })
         if (customer.nModified === 0) res.json({ message: `Customer ${req.params.email} not found - Booking not added` })
-        else res.send(`Booking added to cutomer id ${req.params.email}`)
+        else res.json(`Booking added to cutomer id ${req.params.email}`)
     } catch (err) {
-        res.send({ Error: err });
+        res.json({ Error: err });
     }
 
 });

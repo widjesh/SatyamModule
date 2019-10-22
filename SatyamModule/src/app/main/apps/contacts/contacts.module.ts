@@ -22,6 +22,7 @@ import { ContactsContactListComponent } from 'app/main/apps/contacts/contact-lis
 import { ContactsSelectedBarComponent } from 'app/main/apps/contacts/selected-bar/selected-bar.component';
 import { ContactsMainSidebarComponent } from 'app/main/apps/contacts/sidebars/main/main.component';
 import { ContactsContactFormDialogComponent } from 'app/main/apps/contacts/contact-form/contact-form.component';
+import { BookingComponent } from './booking/booking.component';
 
 const routes: Routes = [
     {
@@ -39,7 +40,8 @@ const routes: Routes = [
         ContactsContactListComponent,
         ContactsSelectedBarComponent,
         ContactsMainSidebarComponent,
-        ContactsContactFormDialogComponent
+        ContactsContactFormDialogComponent,
+        BookingComponent,
     ],
     imports        : [
         RouterModule.forChild(routes),
@@ -58,13 +60,14 @@ const routes: Routes = [
         FuseConfirmDialogModule,
         FuseSidebarModule,
         MatSelectModule,
-        MatExpansionModule
+        MatExpansionModule,
+        
     ],
     providers      : [
         ContactsService
     ],
     entryComponents: [
-        ContactsContactFormDialogComponent
+        ContactsContactFormDialogComponent, BookingComponent
     ]
 })
 export class ContactsModule

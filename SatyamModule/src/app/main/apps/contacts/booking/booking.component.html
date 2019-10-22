@@ -1,0 +1,193 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">Booking for {{selectedCustomer.firstname}} {{selectedCustomer.lastname}} </span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
+            <!-- <img [src]="contact.avatar" class="avatar contact-avatar huge m-0"
+                 [alt]="contact.name"/> -->
+            <!-- <div class="contact-name mt-8">{{firstname}} {{lastname}}</div> -->
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+        <form (ngSubmit)="onSubmit()" novalidate>
+            <!-- Booking Information -->
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                           Booking
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            All booking information
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div>
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="pickers" name="expirationdate" formControlName="date"
+                                placeholder="date">
+                            <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+                            <mat-datepicker #pickers></mat-datepicker>
+                        </mat-form-field>
+
+                        <div></div>
+
+
+                        <mat-form-field>
+                            <input matInput placeholder="Description" class="example-right-align">
+                            <span matPrefix>$&nbsp;</span>
+                            <span matSuffix>.00</span>
+                        </mat-form-field>
+
+
+                        <div formGroupName="price">
+                            <mat-accordion>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            Booking Ammount Information
+                                        </mat-panel-title>
+                                        <mat-panel-description>
+                                            currency, ticket, insurance, visa, other, discount
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <div fxLayout="row" fxLayoutAlign="start start">
+                                        <mat-form-field>
+                                            <mat-label>Currency</mat-label>
+                                            <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                            <input name="currency" formControlName="currency" matInput>
+                                        </mat-form-field>
+                                        <span></span>
+                                        <mat-form-field style="margin-left: 15px">
+                                            <input matInput placeholder="Ticket" type="number"
+                                                class="example-right-align">
+                                            <span matPrefix>$&nbsp;</span>
+                                            <span matSuffix>.00</span>
+                                        </mat-form-field>
+                                        <div></div>
+                                        <mat-form-field style="margin-left: 15px">
+                                            <input matInput placeholder="Insurance" type="number"
+                                                class="example-right-align">
+                                            <span matPrefix>$&nbsp;</span>
+                                            <span matSuffix>.00</span>
+                                        </mat-form-field>
+                                    </div>
+                                        <div></div>
+                                        <div fxLayout="row" fxLayoutAlign="start start">
+                                        <mat-form-field >
+                                            <input matInput placeholder="Visa" type="number"
+                                                class="example-right-align">
+                                            <span matPrefix>$&nbsp;</span>
+                                            <span matSuffix>.00</span>
+                                        </mat-form-field>                                    
+                                    <div></div>
+                                        <mat-form-field style="margin-left: 15px">
+                                            <input matInput placeholder="Other" class="leftspace" type="number"
+                                                class="example-right-align">
+                                            <span matPrefix>$&nbsp;</span>
+                                            <span matSuffix>.00</span>
+                                        </mat-form-field>
+                                        <div></div>
+                                        <mat-form-field style="margin-left: 15px">  
+                                            <input matInput placeholder="Amount" type="number"
+                                                class="example-right-align">
+                                            <span matPrefix>$&nbsp;</span>
+                                            <span matSuffix>.00</span>
+                                        </mat-form-field>
+                                    </div>
+                                </mat-expansion-panel>
+                            </mat-accordion>
+                        </div>
+
+                        <mat-accordion>
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Payment Information
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        Date, Amount, Type
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                                <mat-form-field>
+                                    <mat-label>Invoice no</mat-label>
+                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                    <input name="invoiceno" formControlName="invoiceno" matInput>
+                                </mat-form-field>
+
+                                <mat-form-field>
+                                    <mat-label>Amount</mat-label>
+                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                    <input name="amount" formControlName="amount" matInput>
+                                </mat-form-field>
+
+
+                                <!-- <mat-form-field>
+                                            <mat-label>Payment Date</mat-label>
+                                            <input matInput [matDatepicker]="birthdayDatePicker"
+                                                name="dateofpayment" formControlName="dateofpayment">
+                                            <mat-datepicker-toggle matSuffix [for]="birthdayDatePicker">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #birthdayDatePickerpassenger></mat-datepicker>
+                                        </mat-form-field> -->
+
+                                <mat-form-field>
+                                    <mat-label>Type</mat-label>
+                                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                    <input name="type" formControlName="type" matInput>
+                                </mat-form-field>
+
+
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+
+
+                    <!-- end -->
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <button mat-button>Add Booking</button>
+        </form>
+     
+        <table mat-table [dataSource]="customerbooking" class="mat-elevation-z8" style="width : 74.5vw">
+
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+              
+                <!-- Position Column -->
+                <ng-container matColumnDef="number">
+                  <th mat-header-cell *matHeaderCellDef> Booking Number </th>
+                  <td mat-cell *matCellDef="let element"> {{element.number}} </td>
+                </ng-container>
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="price">
+                  <th mat-header-cell *matHeaderCellDef> Price </th>
+                  <td mat-cell *matCellDef="let element"> {{element.price.currency}} {{element.price.ticket}} </td>
+                </ng-container>
+              
+                <!-- Weight Column -->
+                <ng-container matColumnDef="date">
+                  <th mat-header-cell *matHeaderCellDef> Date </th>
+                  <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                </ng-container>
+              
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="description">
+                  <th mat-header-cell *matHeaderCellDef> Description </th>
+                  <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              
+    </div>
+</div>

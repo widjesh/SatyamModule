@@ -4,7 +4,8 @@ import {
   OnInit,
   TemplateRef,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
+  ContentChild
 } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
@@ -16,6 +17,8 @@ import { FuseConfirmDialogComponent } from "@fuse/components/confirm-dialog/conf
 
 import { ContactsService } from "app/main/apps/contacts/contacts.service";
 import { ContactsContactFormDialogComponent } from "app/main/apps/contacts/contact-form/contact-form.component";
+import { BookingComponent } from '../booking/booking.component';
+import { CustomersService } from 'app/Services/customers.service';
 
 @Component({
   selector: "contacts-contact-list",
@@ -54,21 +57,24 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
    * @param {ContactsService} _contactsService
    * @param {MatDialog} _matDialog
    */
+  selectedCustomer:string;
   constructor(
     private _contactsService: ContactsService,
     public _matDialog: MatDialog,
+    private _customersService : CustomersService
   ) {
     // Set the private defaults
     this._unsubscribeAll = new Subject();
   }
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
+  setSelectedCustomer(email:string){
+    this.selectedCustomer = email;
+  }
 
-  /**
-   * On init
-   */
+  getSelectedcustomer(email:string){
+    return this.selectedCustomer;
+  }
+ 
   ngOnInit(): void {
     console.log("init started");
     this.dataSource = new FilesDataSource(this._contactsService);
@@ -184,17 +190,24 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
       this.confirmDialogRef = null;
     });
   }
-
-   addBooking(contact): void {
-    this.confirmDialogRef = this._matDialog.open(ContactsContactListComponent, {
-      disableClose: false
+  @ContentChild('email', { static: true }) myEmail;
+  addBooking(contact:any): void {
+    this._customersService.setSelectedCustomer(contact);
+    this.dialogRef = this._matDialog.open(BookingComponent, {
+      panelClass: "contact-form-dialog",
+      data: {
+        action: "booking"
+      },
+      width: "150vw",
+      height: "95vh",
+      
     });
-    
-    this.confirmDialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this._contactsService.deleteContact(contact);
+    this.dialogRef.afterClosed().subscribe((response: FormGroup) => {
+      if (!response) {
+        return;
       }
-      this.confirmDialogRef = null;
+
+      this._contactsService.updateContact(response.getRawValue());
     });
   }
 

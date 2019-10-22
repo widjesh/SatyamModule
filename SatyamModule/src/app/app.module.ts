@@ -22,6 +22,11 @@ import { AppStoreModule } from 'app/store/store.module';
 import { LayoutModule } from 'app/layout/layout.module';
 import { SwalService } from './Services/swal.service';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
+import { ContactsComponent } from './main/apps/contacts/contacts.component';
+import { ContactsSelectedBarComponent } from './main/apps/contacts/selected-bar/selected-bar.component';
+import { ContactsMainSidebarComponent } from './main/apps/contacts/sidebars/main/main.component';
+import { ContactsContactListComponent } from './main/apps/contacts/contact-list/contact-list.component';
+
 
 const appRoutes: Routes = [
     {
