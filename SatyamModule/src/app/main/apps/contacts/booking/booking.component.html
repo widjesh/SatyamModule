@@ -15,7 +15,7 @@
     </mat-toolbar>
 
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
-        <form (ngSubmit)="onSubmit()" novalidate>
+        <form (ngSubmit)="onSubmit()" [formGroup]="bookingForm"novalidate>
             <!-- Booking Information -->
             <mat-accordion>
                 <mat-expansion-panel>
@@ -39,13 +39,13 @@
 
 
                         <mat-form-field>
-                            <input matInput placeholder="Description" class="example-right-align">
+                            <input matInput placeholder="Description" class="example-right-align" formControlName="description">
                             <span matPrefix>$&nbsp;</span>
                             <span matSuffix>.00</span>
                         </mat-form-field>
 
 
-                        <div formGroupName="price">
+                        <div>
                             <mat-accordion>
                                 <mat-expansion-panel>
                                     <mat-expansion-panel-header>
@@ -64,14 +64,14 @@
                                         </mat-form-field>
                                         <span></span>
                                         <mat-form-field style="margin-left: 15px">
-                                            <input matInput placeholder="Ticket" type="number"
+                                            <input matInput placeholder="Ticket" formControlName="ticket" type="number"
                                                 class="example-right-align">
                                             <span matPrefix>$&nbsp;</span>
                                             <span matSuffix>.00</span>
                                         </mat-form-field>
                                         <div></div>
                                         <mat-form-field style="margin-left: 15px">
-                                            <input matInput placeholder="Insurance" type="number"
+                                            <input matInput placeholder="Insurance" formControlName="insurance" type="number"
                                                 class="example-right-align">
                                             <span matPrefix>$&nbsp;</span>
                                             <span matSuffix>.00</span>
@@ -80,21 +80,21 @@
                                         <div></div>
                                         <div fxLayout="row" fxLayoutAlign="start start">
                                         <mat-form-field >
-                                            <input matInput placeholder="Visa" type="number"
+                                            <input matInput placeholder="Visa" formControlName="visa" type="number"
                                                 class="example-right-align">
                                             <span matPrefix>$&nbsp;</span>
                                             <span matSuffix>.00</span>
                                         </mat-form-field>                                    
                                     <div></div>
                                         <mat-form-field style="margin-left: 15px">
-                                            <input matInput placeholder="Other" class="leftspace" type="number"
+                                            <input matInput placeholder="Other" class="leftspace" formControlName="other" type="number"
                                                 class="example-right-align">
                                             <span matPrefix>$&nbsp;</span>
                                             <span matSuffix>.00</span>
                                         </mat-form-field>
                                         <div></div>
                                         <mat-form-field style="margin-left: 15px">  
-                                            <input matInput placeholder="Amount" type="number"
+                                            <input matInput placeholder="Discount" formControlName="discount" type="number"
                                                 class="example-right-align">
                                             <span matPrefix>$&nbsp;</span>
                                             <span matSuffix>.00</span>
@@ -164,25 +164,25 @@
                 <!-- Position Column -->
                 <ng-container matColumnDef="number">
                   <th mat-header-cell *matHeaderCellDef> Booking Number </th>
-                  <td mat-cell *matCellDef="let element"> {{element.number}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element?.number}} </td>
                 </ng-container>
               
                 <!-- Name Column -->
                 <ng-container matColumnDef="price">
                   <th mat-header-cell *matHeaderCellDef> Price </th>
-                  <td mat-cell *matCellDef="let element"> {{element.price.currency}} {{element.price.ticket}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element?.price?.currency}} {{element?.price?.ticket}} </td>
                 </ng-container>
               
                 <!-- Weight Column -->
                 <ng-container matColumnDef="date">
                   <th mat-header-cell *matHeaderCellDef> Date </th>
-                  <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element?.date}} </td>
                 </ng-container>
               
                 <!-- Symbol Column -->
                 <ng-container matColumnDef="description">
                   <th mat-header-cell *matHeaderCellDef> Description </th>
-                  <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element?.description}} </td>
                 </ng-container>
               
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

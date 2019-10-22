@@ -37,25 +37,10 @@ Content-Type: application/x-www-form-urlencoded
 ###
 DELETE http://localhost:3000/users/remove/kalebzenawi@gmail.com
 ###
-PATCH http://localhost:3000/users/widjesh@satyamholidays.net
+PATCH  http://localhost:3000/customers/addbooking/widjesh@satyamholidays.net
 Content-Type: application/json
 
 {
-      "description": "booking",
-      "currency": "",
-      "ticket": "booking",
-      "insurance": "booking",
-      "visa": "booking",
-      "other": "booking",
-      "discount": "booking",
-
-      "firstname": "booking",
-      "lastname": "booking",
-      "dob": "booking",
-      "passportno": "booking",
-      "invoiceno": "booking",
-      "amount": "booking",
-      "dateofpayement": "booking",
-      "type": "booking"
+    "description":"test"
 }
       

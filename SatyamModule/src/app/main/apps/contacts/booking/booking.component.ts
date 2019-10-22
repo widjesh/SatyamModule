@@ -3,6 +3,7 @@ import { MatDialogRef } from "@angular/material";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { Booking } from "../customer.model";
 import { CustomersService } from 'app/Services/customers.service';
+import { SwalService } from 'app/Services/swal.service';
 
 export interface PeriodicElement {
   name: string;
@@ -34,16 +35,21 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class BookingComponent implements OnInit {
   booking: Booking;
-  selectedCustomer:any
+  selectedCustomer:any;
   customerbooking : any;
+  formBuilder : FormBuilder;
+  bookingForm : FormGroup;
   constructor(
     public matDialogRef: MatDialogRef<BookingComponent>,
     private _formBuilder: FormBuilder,
-    private _customerService : CustomersService
+    private _customerService : CustomersService,
+    private _swalService : SwalService
+
   ) {
    this.selectedCustomer = this._customerService.getSelectedcustomer();
    console.log(this.selectedCustomer);
    this.customerbooking = this.selectedCustomer.bookings;
+   this.bookingForm = this.createBookingForm();
   }
   
 
@@ -52,31 +58,59 @@ export class BookingComponent implements OnInit {
   ngOnInit() {}
 
   createBookingForm(): FormGroup {
-    return this._formBuilder.group({
-      number: [this.booking.number],
-      date: [this.booking.date],
-      description: [this.booking.description],
-      currency: [this.booking.price.currency],
-      ticket: [this.booking.price.ticket],
-      insurance: [this.booking.price.insurance],
-      visa: [this.booking.price.visa],
-      other: [this.booking.price.other],
-      discount: [this.booking.price.discount],
 
-      firstname: [this.booking.passengers.pfirstname],
-      lastname: [this.booking.passengers.plastname],
-      dob: [this.booking.passengers.pdob],
-      passportno: [this.booking.passengers.ppassportnumber],
-      invoiceno: [this.booking.payments.invoiceno],
-      amount: [this.booking.payments.amount],
-      dateofpayement: [this.booking.payments.dateofpayement],
-      type: [this.booking.payments.type]
-    });
+    if(this.booking){
+      return this._formBuilder.group({
+        number: [this.booking.number] ,
+        date: [this.booking.date] ,
+        description: [this.booking.description] ,
+        currency: [this.booking.price.currency],
+        ticket: [this.booking.price.ticket],
+        insurance: [this.booking.price.insurance],
+        visa: [this.booking.price.visa] ,
+        other: [this.booking.price.other],
+        discount: [this.booking.price.discount] ,
+  
+        firstname: [this.booking.passengers.pfirstname] ,
+        lastname: [this.booking.passengers.plastname] ,
+        dob: [this.booking.passengers.pdob] ,
+        passportno: [this.booking.passengers.ppassportnumber],
+        invoiceno: [this.booking.payments.invoiceno] ,
+        amount: [this.booking.payments.amount] ,
+        dateofpayement: [this.booking.payments.dateofpayement] ,
+        type: [this.booking.payments.type]
+      });
+    }else{
+      return this._formBuilder.group({
+        number:  [""],
+        date: [""],
+        description: [""],
+        currency:  [""],
+        ticket:  [""],
+        insurance: [""],
+        visa: [""],
+        other:  [""],
+        discount:  [""],
+  
+        firstname:  [""],
+        lastname:  [""],
+        dob:  [""],
+        passportno:  [""],
+        invoiceno:  [""],
+        amount: [""],
+        dateofpayement:  [""],
+        type:  [""]
+      });
+    }
+   
   }
 
   onSubmit() {
-    console.log(this.selectedCustomer.contact.email);
-    this._customerService.addBooking(this.booking,this.selectedCustomer.contact.email).subscribe((data)=>{
+    console.log('Look from here')
+    console.log(this.bookingForm.value);
+    this._customerService.addBooking(this.bookingForm.value,this.selectedCustomer.contact.email).subscribe(async (data)=>{
+      await this._swalService.notify("Added!",`Booking added`,"success");
+      this.createBookingForm();
       console.log(data);
     });
   }
