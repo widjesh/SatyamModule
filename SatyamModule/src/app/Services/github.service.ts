@@ -6,9 +6,9 @@ import { HttpClient } from "@angular/common/http";
 })
 export class GithubService {
 
-  constructor(public http:HttpClient) { }
+  constructor(public http: HttpClient) { }
 
-  getAllCommits(){
+  getAllCommits() {
     return this.http.get<any>('Ahttps://api.github.com/repos/widjesh/SatyamModule/commits');
   }
 

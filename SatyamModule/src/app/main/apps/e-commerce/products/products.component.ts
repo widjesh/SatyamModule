@@ -47,7 +47,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class EcommerceProductsComponent implements OnInit {
   displayedColumns: string[] = ["position", "name", "weight", "symbol"];
   dataSource = ELEMENT_DATA;
-  commits:any;
+  commits: any;
 
   // dataSource: FilesDataSource | null;
   // displayedColumns = ['id', 'image', 'name', 'category', 'price', 'quantity', 'active'];
@@ -82,7 +82,7 @@ export class EcommerceProductsComponent implements OnInit {
   ngOnInit(): void {
     // this.dataSource = new FilesDataSource(this._ecommerceProductsService, this.paginator, this.sort);
     this.gitHubService.getAllCommits().subscribe(data => {
-        this.commits = data;
+      this.commits = data;
       console.log(data);
     });
     fromEvent(this.filter.nativeElement, "keyup")
@@ -241,5 +241,5 @@ export class FilesDataSource extends DataSource<any> {
   /**
    * Disconnect
    */
-  disconnect(): void {}
+  disconnect(): void { }
 }
