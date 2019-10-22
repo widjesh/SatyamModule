@@ -36,3 +36,11 @@ Content-Type: application/x-www-form-urlencoded
 
 ###
 DELETE http://localhost:3000/users/remove/kalebzenawi@gmail.com
+###
+PATCH  http://localhost:3000/customers/addbooking/widjesh@satyamholidays.net
+Content-Type: application/json
+
+{
+    "description":"test"
+}
+      

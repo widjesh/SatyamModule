@@ -68,6 +68,8 @@ export class LoginComponent implements OnInit {
           "You're logged in",
           "success"
         );
+        console.log(data.token);
+        localStorage.setItem('usertoken',data.token);
         this.router.navigate(["/apps/dashboards/project"]);
         this.cookieService.setAuth(data.name)
       }
