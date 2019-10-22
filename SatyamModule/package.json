@@ -57,6 +57,7 @@
     "perfect-scrollbar": "1.4.0",
     "prismjs": "1.16.0",
     "rxjs": "6.5.2",
+    "swal": "^0.1.0",
     "sweetalert": "^2.1.2",
     "web-animations-js": "2.3.2",
     "zone.js": "0.9.1"
