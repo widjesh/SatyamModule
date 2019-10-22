@@ -10,10 +10,10 @@ router.get("/", async (req, res) => {
     if (!user) {
       res.json({ message: "Users Not Found" });
     } else {
-      res.send(user);
+      res.json(user);
     }
   } catch (err) {
-    res.send({ Error: err });
+    res.json({ Error: err });
   }
 });
 
@@ -23,7 +23,7 @@ router.get("/:email", async (req, res) => {
     if (!user) {
       res.json({ message: `${req.params.email} not found` });
     } else {
-      res.send(user);
+      res.json(user);
     }
   } catch (err) {
     res.json({ Error: err });
@@ -45,10 +45,10 @@ router.post("/", async (req, res) => {
     if (!newUser) {
       res.json({ message: 'User Cannot be Saved' });
     } else {
-      res.send(user);
+      res.json(user);
     }
   } catch (err) {
-    res.send({ Error: err });
+    res.json({ Error: err });
   }
 });
 
@@ -57,11 +57,11 @@ router.post("/login", async (req, res) => {
   try {
     const foundUser = await User.findOne({ email: req.body.email });
     if (!foundUser) {
-      res.send({ message: "Auth Failed" });
+      res.json({ message: "Auth Failed" });
     } else {
       const verify = bcrypt.compareSync(req.body.password, foundUser.password);
       if (!verify) {
-        res.send({ message: "Auth Failed" });
+        res.json({ message: "Auth Failed" });
       } else {
         const token = jwt.sign(
           {
@@ -74,7 +74,7 @@ router.post("/login", async (req, res) => {
             expiresIn: "1h"
           }
         );
-        res.status(200).send({
+        res.status(200).json({
           message: "Auth Successfull",
           name: foundUser.name,
           token: token
@@ -89,20 +89,20 @@ router.post("/login", async (req, res) => {
 router.patch("/updatepassword/:email", async (req, res) => {
   try {
     const user = await User.update({ email: req.params.email }, { $set: { password: bcrypt.hashSync(req.body.password, 10) } })
-    if (user) res.send(`Password for ${req.params.email} Changed`)
+    if (user) res.json({ message: `Password for ${req.params.email} Changed` })
     else res.json({ message: 'Password Not Updated' })
   } catch (err) {
-    res.send({ Error: err });
+    res.json({ Error: err });
   }
 })
 
 router.patch("/updaterole/:email", async (req, res) => {
   try {
     const user = await User.updateOne({ email: req.params.email }, { $set: { isadmin: req.body.isadmin } })
-    if (user) res.send(`Role for ${req.params.email} Updated to ADMIN: ${req.body.isadmin}`)
+    if (user) res.json({ message: `Role for ${req.params.email} Updated to ADMIN: ${req.body.isadmin}` })
     else res.json({ message: 'Role Not Updated' })
   } catch (err) {
-    res.send({ Error: err });
+    res.json({ Error: err });
   }
 })
 
@@ -110,10 +110,10 @@ router.delete("/remove/:email", async (req, res) => {
   try {
     const user = await User.deleteOne({ email: req.params.email })
     if (user.deletedCount === 0) res.json({ message: `User ${req.params.email} not found` })
-    else if (user.deletedCount === 1) res.send(`User ${req.params.email} successfully removed`)
+    else if (user.deletedCount === 1) res.json({ message: `User ${req.params.email} successfully removed` })
     else res.json({ message: 'Remove Unseccesful' })
   } catch (err) {
-    res.send({ Error: err });
+    res.json({ Error: err });
   }
 })
 

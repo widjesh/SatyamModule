@@ -6,11 +6,11 @@ import { HttpClient } from "@angular/common/http";
 })
 export class CurrencyService {
   // https://xecdapi.xe.com/v1/convert_to.json/?to=USD&from=SRD&amount=1
-  constructor(public http: HttpClient) {}
+  constructor(public http: HttpClient) { }
 
   getEURtoUSD() {
     return this.http.get<any>(
-      "Ahttps://xecdapi.xe.com/v1/convert_to.json/?to=EUR&from=USD&amount=1"
+      "https://xecdapi.xe.com/v1/convert_to.json/?to=EUR&from=USD&amount=1"
     );
   }
 
@@ -23,7 +23,7 @@ export class CurrencyService {
 
   getUSDtoSRD() {
     return this.http.get<any>(
-      "Ahttps://xecdapi.xe.com/v1/convert_to.json/?to=USD&from=SRD&amount=1"
+      "AShttps://xecdapi.xe.com/v1/convert_to.json/?to=USD&from=SRD&amount=1"
     );
   }
 

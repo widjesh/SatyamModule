@@ -6,6 +6,7 @@ import { fuseAnimations } from "@fuse/animations";
 import { UserService } from "app/Services/user.service";
 import { SwalService } from "app/Services/swal.service";
 import { Router } from "@angular/router";
+import { CookieService } from "app/Services/cookie.service"
 
 @Component({
   selector: "login",
@@ -28,7 +29,8 @@ export class LoginComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private userService: UserService,
     private swalService: SwalService,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) {
     this.loginForm = this._formBuilder.group({
       email: ["", [Validators.required, Validators.email]],
@@ -67,6 +69,7 @@ export class LoginComponent implements OnInit {
           "success"
         );
         this.router.navigate(["/apps/dashboards/project"]);
+        this.cookieService.setAuth(data.name)
       }
     });
     console.log(this.loginForm.value);

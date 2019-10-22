@@ -10,7 +10,7 @@
             <div fxLayout="row" fxLayoutAlign="space-between start">
 
                 <span class="mat-display-1 my-0 my-sm-24 welcome-message"
-                    [@animate]="{value:'*',params:{x:'50px'}}">Welcome back, Charlie!
+                    [@animate]="{value:'*',params:{x:'50px'}}">Welcome back, {{name}}!
                 </span>
 
                 <button mat-icon-button class="sidebar-toggle mr-8" fxHide.gt-md
@@ -59,20 +59,20 @@
                                             [(ngModel)]="widgets.widget1.currentRange" aria-label="Change range">
                                             <mat-option *ngFor="let range of widgets.widget1.ranges | keys"
                                                 [value]="range.key">
-                                                {{range.value}}
+                                                <!-- {{range.value}} -->
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                     <button mat-icon-button fuseWidgetToggle aria-label="more">
-                                        <mat-icon>more_vert</mat-icon>
+                                        <!-- <mat-icon>more_vert</mat-icon> -->
                                     </button>
                                 </div>
 
                                 <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
                                     <div class="light-blue-fg font-size-72 line-height-72">
-                                        {{users.length}}
+                                        {{userscount}}
                                     </div>
-                                    <div class="h3 secondary-text font-weight-500">Employees
+                                    <div class="h3 secondary-text font-weight-500">EMPLOYEES
                                     </div>
                                 </div>
 
@@ -88,7 +88,8 @@
                                 </button>
 
                                 <div>
-                                    {{widgets.widget1.detail}}
+                                    <!-- {{widgets.widget1.detail}} -->
+                                    {{userscount}} Employees currently registered in the system
                                 </div>
                             </div>
                             <!-- / Back -->
@@ -103,7 +104,9 @@
                             <!-- Front -->
                             <div class="fuse-widget-front">
                                 <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
-                                    <div class="h3">{{widgets.widget2.title}}</div>
+                                    <div class="h3">
+                                        <!-- {{widgets.widget2.title}} -->
+                                    </div>
 
                                     <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
                                         aria-label="more">
@@ -113,17 +116,18 @@
 
                                 <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
                                     <div class="red-fg font-size-72 line-height-72">
-                                        <!-- {{customerscount}} -->
+                                        {{customerscount}}
                                     </div>
-                                    <div class="h3 secondary-text font-weight-500">{{widgets.widget2.data.label}}
+                                    <div class="h3 secondary-text font-weight-500">CUSTOMERS
                                     </div>
                                 </div>
 
                                 <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
                                     <span class="h4 secondary-text text-truncate">
-                                        {{widgets.widget2.data.extra.label}}:
+                                        <!-- {{widgets.widget2.data.extra.label}}: -->
                                     </span>
-                                    <span class="h4 ml-8">{{widgets.widget2.data.extra.count}}</span>
+                                    <span class="h4 ml-8">
+                                        <!--{{widgets.widget2.data.extra.count}}--></span>
                                 </div>
                             </div>
                             <!-- / Front -->
@@ -136,7 +140,8 @@
                                 </button>
 
                                 <div>
-                                    {{widgets.widget2.detail}}
+                                    <!-- {{widgets.widget2.detail}} -->
+                                    {{customerscount}} Customers currently registered in the system
                                 </div>
                             </div>
                             <!-- / Back -->
@@ -151,27 +156,32 @@
                             <!-- Front -->
                             <div class="fuse-widget-front">
                                 <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
-                                    <div class="h3">{{widgets.widget3.title}}</div>
+                                    <div class="h3">
+                                        <!--{{widgets.widget3.title}}-->
+                                    </div>
 
                                     <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
                                         aria-label="more">
-                                        <mat-icon>more_vert</mat-icon>
+                                        <mat-icon>
+                                            more_vert
+                                        </mat-icon>
                                     </button>
                                 </div>
 
                                 <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
                                     <div class="orange-fg font-size-72 line-height-72">
-                                        {{widgets.widget3.data.count}}
+                                        {{bookingscount}}
                                     </div>
-                                    <div class="h3 secondary-text font-weight-500">{{widgets.widget3.data.label}}
+                                    <div class="h3 secondary-text font-weight-500">ACTIVE BOOKINGS
                                     </div>
                                 </div>
 
                                 <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
                                     <span class="h4 secondary-text text-truncate">
-                                        {{widgets.widget3.data.extra.label}}:
+                                        <!-- {{widgets.widget3.data.extra.label}}: -->
                                     </span>
-                                    <span class="h4 ml-8">{{widgets.widget3.data.extra.count}}</span>
+                                    <span class="h4 ml-8">
+                                        <!--{{widgets.widget3.data.extra.count}}--></span>
                                 </div>
                             </div>
                             <!-- / Front -->
@@ -184,7 +194,8 @@
                                 </button>
 
                                 <div>
-                                    {{widgets.widget3.detail}}
+                                    <!-- {{widgets.widget3.detail}} -->
+                                    {{bookingscount}} Bookings currently registered in the system
                                 </div>
                             </div>
                             <!-- / Back -->
@@ -199,27 +210,32 @@
                             <!-- Front -->
                             <div class="fuse-widget-front">
                                 <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
-                                    <div class="h3">{{widgets.widget4.title}}</div>
+                                    <div class="h3">
+                                        <!--{{widgets.widget4.title}}-->
+                                    </div>
 
                                     <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
                                         aria-label="more">
-                                        <mat-icon>more_vert</mat-icon>
+                                        <mat-icon>
+                                            more_vert
+                                        </mat-icon>
                                     </button>
                                 </div>
 
                                 <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
                                     <div class="blue-grey-fg font-size-72 line-height-72">
-                                        {{widgets.widget4.data.count}}
+                                        {{passengersgscount}}
                                     </div>
-                                    <div class="h3 secondary-text font-weight-500">{{widgets.widget4.data.label}}
+                                    <div class="h3 secondary-text font-weight-500">ACTIVE PASSENGERS
                                     </div>
                                 </div>
 
                                 <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
                                     <span class="h4 secondary-text text-truncate">
-                                        {{widgets.widget4.data.extra.label}}:
+                                        <!-- {{widgets.widget4.data.extra.label}}: -->
                                     </span>
-                                    <span class="h4 ml-8">{{widgets.widget4.data.extra.count}}</span>
+                                    <span class="h4 ml-8">
+                                        <!--{{widgets.widget4.data.extra.count}}--></span>
                                 </div>
                             </div>
                             <!-- / Front -->
@@ -232,7 +248,8 @@
                                 </button>
 
                                 <div>
-                                    {{widgets.widget4.detail}}
+                                    <!-- {{widgets.widget4.detail}} -->
+                                    {{passengersgscount}} Passengers currently registered in the system
                                 </div>
                             </div>
                             <!-- / Back -->
