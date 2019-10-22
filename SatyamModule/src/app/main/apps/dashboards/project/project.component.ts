@@ -23,6 +23,7 @@ import { Router } from "@angular/router";
 import { SwalService } from "app/Services/swal.service";
 import { CustomersService } from "app/Services/customers.service";
 import { CookieService } from "app/Services/cookie.service"
+import { CurrencyService } from 'app/Services/currency.service';
 
 export interface PeriodicElement {
   name: string;
@@ -61,6 +62,11 @@ export class ProjectDashboardComponent implements OnInit {
   passengersgscount: number = 0;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   name: any
+  users:any;
+  eurusd:any;
+  eursrd:any;
+  usdsrd:any;
+
 
   widgets: any;
   widget5: any = {};
@@ -87,7 +93,8 @@ export class ProjectDashboardComponent implements OnInit {
     public router: Router,
     public swalService: SwalService,
     public customersService: CustomersService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private currencyService : CurrencyService
   ) {
     /**
      * Widget 5
@@ -212,6 +219,9 @@ export class ProjectDashboardComponent implements OnInit {
       }
       this.confirmDialogRef = null;
     });
+
+
+
   }
   ngOnInit(): void {
     this.projects = this._projectDashboardService.projects;
@@ -231,6 +241,7 @@ export class ProjectDashboardComponent implements OnInit {
     this.userService.getAllUsers().subscribe(u => {
       console.log(u);
       this.userscount = u.length;
+      this.users = u;
     });
 
     this.customersService.getCustomers().subscribe(customers => {
@@ -243,7 +254,19 @@ export class ProjectDashboardComponent implements OnInit {
       }
     })
 
-    this.name = this.cookieService.getAuth()
+    this.name = this.cookieService.getAuth();
+
+    this.currencyService.getEURtoUSD().subscribe((data)=>{
+      this.eurusd = data.from[0].mid;
+    });
+    
+    this.currencyService.getEURtoSRD().subscribe((data)=>{
+      this.eursrd = data.from[0].mid;
+    });
+
+    this.currencyService.getUSDtoSRD().subscribe((data)=>{
+      this.usdsrd = data.from[0].mid;
+    });
 
   }
 

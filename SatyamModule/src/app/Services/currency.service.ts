@@ -10,7 +10,7 @@ export class CurrencyService {
 
   getEURtoUSD() {
     return this.http.get<any>(
-      "https://xecdapi.xe.com/v1/convert_to.json/?to=EUR&from=USD&amount=1"
+      "Ahttps://xecdapi.xe.com/v1/convert_to.json/?to=EUR&from=USD&amount=1"
     );
   }
 
@@ -23,7 +23,7 @@ export class CurrencyService {
 
   getUSDtoSRD() {
     return this.http.get<any>(
-      "AShttps://xecdapi.xe.com/v1/convert_to.json/?to=USD&from=SRD&amount=1"
+      "Ahttps://xecdapi.xe.com/v1/convert_to.json/?to=USD&from=SRD&amount=1"
     );
   }
 
