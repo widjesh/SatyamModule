@@ -24,6 +24,7 @@ import { SwalService } from "app/Services/swal.service";
 import { CustomersService } from "app/Services/customers.service";
 import { CookieService } from "app/Services/cookie.service"
 import { CurrencyService } from 'app/Services/currency.service';
+import { TokenService } from 'app/Services/token.service';
 
 export interface PeriodicElement {
   name: string;
@@ -66,6 +67,7 @@ export class ProjectDashboardComponent implements OnInit {
   eurusd:any;
   eursrd:any;
   usdsrd:any;
+  loggedinuser: any;
 
 
   widgets: any;
@@ -94,7 +96,8 @@ export class ProjectDashboardComponent implements OnInit {
     public swalService: SwalService,
     public customersService: CustomersService,
     private cookieService: CookieService,
-    private currencyService : CurrencyService
+    private currencyService : CurrencyService,
+    private _tokenService : TokenService
   ) {
     /**
      * Widget 5
@@ -196,6 +199,8 @@ export class ProjectDashboardComponent implements OnInit {
     setInterval(() => {
       this.dateNow = Date.now();
     }, 1000);
+
+    this.loggedinuser = this._tokenService.user;
   }
 
   deleteContact(user) {
